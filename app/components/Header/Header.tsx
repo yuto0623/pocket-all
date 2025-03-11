@@ -13,7 +13,7 @@ export default function Header() {
 					<li>
 						<a href="/">Link</a>
 					</li>
-					<li>
+					{/* <li>
 						<details>
 							<summary>Parent</summary>
 							<ul className="bg-base-100 rounded-t-none p-2">
@@ -25,7 +25,7 @@ export default function Header() {
 								</li>
 							</ul>
 						</details>
-					</li>
+					</li> */}
 				</ul>
 			</div>
 			<ThemeSwitcher />
