@@ -1,6 +1,6 @@
 export default function Card() {
 	return (
-		<div className="card">
+		<div className="card card-border">
 			<div className="card-body">
 				<h2 className="card-title">test Card</h2>
 				<p>testsetstestse</p>

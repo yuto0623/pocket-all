@@ -14,8 +14,17 @@ export default function ThemeSwitcher() {
 		setMounted(true);
 	}, []);
 
+	//コンポーネントがマウントされてないと時はダミーボタンを表示
 	if (!mounted) {
-		return null;
+		return (
+			<button
+				type="button"
+				className="btn btn-circle"
+				aria-label="テーマ切り替え"
+			>
+				<LuSun size={20} />
+			</button>
+		);
 	}
 
 	return (
