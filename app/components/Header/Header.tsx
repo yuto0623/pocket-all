@@ -1,17 +1,18 @@
+import Link from "next/link";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
 export default function Header() {
 	return (
 		<header className="navbar bg-base-100 shadow-sm">
 			<div className="flex-1">
-				<a href="/" className="btn btn-ghost text-xl">
+				<Link href="/" className="btn btn-ghost text-xl">
 					<h1>PocketALL</h1>
-				</a>
+				</Link>
 			</div>
 			<div className="flex-none">
 				<ul className="menu menu-horizontal px-1">
 					<li>
-						<a href="/">Link</a>
+						<Link href="/">Link</Link>
 					</li>
 					{/* <li>
 						<details>
