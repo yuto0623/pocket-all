@@ -2,7 +2,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import { type ComponentProps, useRef, useState } from "react";
 import { ColorPicker, type IColor, useColor } from "react-color-palette";
-import { FaLink } from "react-icons/fa";
+import { FaLink, FaSpinner, FaTimes } from "react-icons/fa";
 import "react-color-palette/css";
 
 export default function QrGeneratorTool() {
@@ -27,6 +27,11 @@ export default function QrGeneratorTool() {
 	const [frontHexInput, setFrontHexInput] = useState(initialFrontColor);
 	const [backColor, setBackColor] = useColor(initialBackColor);
 	const [backHexInput, setBackHexInput] = useState(initialBackColor);
+
+	// ファイルアップロード関連の状態を追加
+	const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+	const [isUploading, setIsUploading] = useState(false);
+	const [uploadError, setUploadError] = useState<string | null>(null);
 
 	const qrRef = useRef(null);
 
@@ -82,6 +87,38 @@ export default function QrGeneratorTool() {
 
 		// SVGデータをbase64エンコードしてImageのsrcにセット
 		img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgData)))}`;
+	};
+
+	// ファイルアップロードの処理
+	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		setIsUploading(true);
+		setUploadError(null);
+
+		// ファイル形式のチェック
+		if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
+			setUploadError("JPG、PNG、GIF形式のみアップロードできます");
+			setIsUploading(false);
+			return;
+		}
+
+		// FileReaderでファイルを読み込む
+		const reader = new FileReader();
+
+		reader.onload = (event) => {
+			setUploadedImage(event.target?.result as string);
+			setIsUploading(false);
+		};
+
+		reader.onerror = () => {
+			setUploadError("ファイルの読み込みに失敗しました");
+			setIsUploading(false);
+		};
+
+		// ファイルの読み込みを開始
+		reader.readAsDataURL(file);
 	};
 
 	return (
@@ -256,8 +293,30 @@ export default function QrGeneratorTool() {
 										<p>QRコードの中央に画像を追加</p>
 									</div>
 									{addImage && (
-										<div>
-											<p>test</p>
+										<div className="flex items-center gap-5">
+											<input
+												type="file"
+												className="file-input"
+												onChange={handleFileUpload}
+												accept="image/jpeg, image/png, image/gif"
+												disabled={isUploading}
+											/>
+											{isUploading && (
+												<div className="">
+													<FaSpinner className="animate-spin" size={20} />
+												</div>
+											)}
+											{uploadError && (
+												<div className="toast">
+													<div className="alert alert-error">
+														<span>{uploadError}aafdfafdaf</span>
+														<FaTimes
+															size={20}
+															onClick={() => setUploadError(null)}
+														/>
+													</div>
+												</div>
+											)}
 										</div>
 									)}
 								</div>
