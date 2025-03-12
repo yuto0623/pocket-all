@@ -78,13 +78,44 @@ export default function QrGeneratorTool() {
 			// データURLを生成し、ダウンロードを開始
 			const pngUrl = canvas.toDataURL("image/png");
 
-			// ダウンロードリンクを作成して自動クリック
-			const downloadLink = document.createElement("a");
-			downloadLink.href = pngUrl;
-			downloadLink.download = "qrcode.png"; // ダウンロードするファイル名
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
+			// Web Share APIが利用可能かチェック
+			if (
+				navigator.share &&
+				/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+			) {
+				// ファイル名と型を設定
+				const fileName = "qrcode.png";
+
+				// Base64データURLをBlobに変換
+				fetch(pngUrl)
+					.then((res) => res.blob())
+					.then((blob) => {
+						// ファイルオブジェクトを作成
+						const file = new File([blob], fileName, { type: "image/png" });
+
+						// Web Share APIでファイルを共有
+						navigator
+							.share({
+								title: "QRコード",
+								text: "生成したQRコードを共有します",
+								files: [file],
+							})
+							.catch((error) => {
+								console.error("共有に失敗しました", error);
+								// 共有に失敗した場合、従来のダウンロード方法を試みる
+							});
+					});
+			} else {
+				// Web Share APIがサポートされていない場合は従来の方法でダウンロード
+
+				// ダウンロードリンクを作成して自動クリック
+				const downloadLink = document.createElement("a");
+				downloadLink.href = pngUrl;
+				downloadLink.download = "qrcode.png"; // ダウンロードするファイル名
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+			}
 		};
 
 		// SVGデータをbase64エンコードしてImageのsrcにセット
