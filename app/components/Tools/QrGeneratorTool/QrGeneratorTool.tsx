@@ -181,7 +181,7 @@ export default function QrGeneratorTool() {
 							<div className="card card-border">
 								<div className="card-body grid grid-cols-2">
 									<div>
-										<p>前景色</p>
+										<label htmlFor="front-color-picker">前景色</label>
 										<div className="flex">
 											<button
 												type="button"
@@ -189,7 +189,7 @@ export default function QrGeneratorTool() {
 												className="btn w-10 [anchor-name:--anchor-1]"
 												style={{ backgroundColor: `${frontColor.hex}` }}
 												title="前景色の選択"
-												aria-label="前景色の選択"
+												id="front-color-picker"
 											/>
 											<input
 												type="text"
@@ -210,6 +210,7 @@ export default function QrGeneratorTool() {
 														});
 													}
 												}}
+												aria-label="前景色の16進数カラーコード"
 											/>
 										</div>
 										<div
@@ -226,7 +227,7 @@ export default function QrGeneratorTool() {
 										</div>
 									</div>
 									<div>
-										<p>背景色</p>
+										<label htmlFor="back-color-picker">背景色</label>
 										<div className="flex">
 											<button
 												type="button"
@@ -234,7 +235,7 @@ export default function QrGeneratorTool() {
 												className="btn w-10 [anchor-name:--anchor-2]"
 												style={{ backgroundColor: `${backColor.hex}` }}
 												title="背景色の選択"
-												aria-label="背景色の選択"
+												id="back-color-picker"
 											/>
 											<input
 												type="text"
@@ -255,6 +256,7 @@ export default function QrGeneratorTool() {
 														});
 													}
 												}}
+												aria-label="背景色の16進数カラーコード"
 											/>
 										</div>
 										<div
@@ -299,8 +301,11 @@ export default function QrGeneratorTool() {
 										type="checkbox"
 										className="toggle"
 										onChange={(e) => setAddImage(e.target.checked)}
+										id="add-image-checkbox"
 									/>
-									<p>QRコードの中央に画像を追加</p>
+									<label htmlFor="add-image-checkbox">
+										QRコードの中央に画像を追加
+									</label>
 								</div>
 								{addImage && (
 									<div>
@@ -336,7 +341,7 @@ export default function QrGeneratorTool() {
 											{uploadError && (
 												<div className="toast">
 													<div className="alert alert-error">
-														<span>{uploadError}aafdfafdaf</span>
+														<span>{uploadError}</span>
 														<FaTimes
 															size={20}
 															onClick={() => setUploadError(null)}
