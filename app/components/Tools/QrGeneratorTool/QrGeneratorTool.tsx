@@ -247,7 +247,7 @@ export default function QrGeneratorTool() {
 							</p>
 							<div className="card card-border">
 								<div className="card-body">
-									<div className="flex flex-row mb-5">
+									<div className="flex flex-row gap-3 mb-5">
 										<input
 											type="checkbox"
 											className="toggle"
