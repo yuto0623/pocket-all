@@ -336,13 +336,20 @@ export default function QrGeneratorTool() {
 											)}
 										</div>
 										{uploadedImage && !isUploading && !uploadError && (
-											<div>
+											<div className="flex justify-center sm:justify-start items-center gap-5">
 												<NextImage
 													src={uploadedImage}
 													alt="Uploaded image"
-													width={50}
-													height={50}
+													width={80}
+													height={80}
 												/>
+												<button
+													className="btn"
+													type="reset"
+													onClick={() => setUploadedImage(null)}
+												>
+													クリア
+												</button>
 											</div>
 										)}
 									</div>
