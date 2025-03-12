@@ -134,7 +134,8 @@ export default function QrGeneratorTool() {
 							/>
 							<div className="card card-border">
 								<div className="card-body grid grid-cols-2">
-									<div className="flex items-center">
+									<div>
+										<p>前景色</p>
 										<div className="flex">
 											<button
 												type="button"
@@ -177,6 +178,7 @@ export default function QrGeneratorTool() {
 										</div>
 									</div>
 									<div>
+										<p>背景色</p>
 										<div className="flex">
 											<button
 												type="button"
