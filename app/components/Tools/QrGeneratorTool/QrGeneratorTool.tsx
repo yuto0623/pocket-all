@@ -220,13 +220,13 @@ export default function QrGeneratorTool() {
 								ref={qrRef}
 								value={text}
 								size={size}
-								bgColor="#FFFFFF"
-								fgColor="#000000"
+								bgColor={backColor.hex}
+								fgColor={frontColor.hex}
 								level="M"
 								marginSize={3}
 							/>
 							<p className="text-sm text-gray-500 mb-5">
-								{size}px x {size}px
+								{size} x {size} ピクセル
 							</p>
 							<button
 								type="button"
