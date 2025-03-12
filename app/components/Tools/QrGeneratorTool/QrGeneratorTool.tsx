@@ -5,6 +5,7 @@ import { type ComponentProps, useRef, useState } from "react";
 import { ColorPicker, type IColor, useColor } from "react-color-palette";
 import { FaLink, FaSpinner, FaTimes } from "react-icons/fa";
 import { Link as Scroll } from "react-scroll";
+import { useQrDownload } from "./hooks/useQrDownload";
 
 export default function QrGeneratorTool() {
 	// Define type for QRCodeSVG props
@@ -35,7 +36,10 @@ export default function QrGeneratorTool() {
 	const [isUploading, setIsUploading] = useState(false);
 	const [uploadError, setUploadError] = useState<string | null>(null);
 
-	const qrRef = useRef(null);
+	// QRコードをダウンロードする関数を取得
+	const { downloadQRCode } = useQrDownload(size, backColor.hex);
+
+	const qrRef = useRef<SVGSVGElement>(null);
 
 	// カラーピッカーが変更されたときにhexInputも更新
 	const handleFrontColorChange = (newColor: IColor) => {
@@ -45,81 +49,6 @@ export default function QrGeneratorTool() {
 	const handleBackColorChange = (newColor: IColor) => {
 		setBackColor(newColor);
 		setBackHexInput(newColor.hex);
-	};
-
-	// QRコードをダウンロードする関数
-	const downloadQRCode = () => {
-		if (!text.trim()) return;
-
-		// SVG要素を取得
-		const svgElement = qrRef.current;
-		if (!svgElement) return;
-
-		// SVGをXML文字列に変換
-		const svgData = new XMLSerializer().serializeToString(svgElement);
-
-		// データURLへ変換するためにCanvas要素とImage要素を使用
-		const canvas = document.createElement("canvas");
-		const img = new Image();
-
-		// 画像がロードされた後の処理
-		img.onload = () => {
-			// Canvasのサイズを設定
-			canvas.width = size;
-			canvas.height = size;
-
-			// CanvasにQRコードを描画
-			const ctx = canvas.getContext("2d");
-			if (!ctx) return;
-			ctx.fillStyle = "#FFFFFF"; // 背景色
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(img, 0, 0);
-
-			// データURLを生成し、ダウンロードを開始
-			const pngUrl = canvas.toDataURL("image/png");
-
-			// Web Share APIが利用可能かチェック
-			if (
-				navigator.share &&
-				/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-			) {
-				// ファイル名と型を設定
-				const fileName = "qrcode.png";
-
-				// Base64データURLをBlobに変換
-				fetch(pngUrl)
-					.then((res) => res.blob())
-					.then((blob) => {
-						// ファイルオブジェクトを作成
-						const file = new File([blob], fileName, { type: "image/png" });
-
-						// Web Share APIでファイルを共有
-						navigator
-							.share({
-								title: "QRコード",
-								text: "生成したQRコードを共有します",
-								files: [file],
-							})
-							.catch((error) => {
-								console.error("共有に失敗しました", error);
-								// 共有に失敗した場合、従来のダウンロード方法を試みる
-							});
-					});
-			} else {
-				// Web Share APIがサポートされていない場合は従来の方法でダウンロード
-
-				// ダウンロードリンクを作成して自動クリック
-				const downloadLink = document.createElement("a");
-				downloadLink.href = pngUrl;
-				downloadLink.download = "qrcode.png"; // ダウンロードするファイル名
-				document.body.appendChild(downloadLink);
-				downloadLink.click();
-				document.body.removeChild(downloadLink);
-			}
-		};
-
-		// SVGデータをbase64エンコードしてImageのsrcにセット
-		img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgData)))}`;
 	};
 
 	// ファイルアップロードの処理
@@ -152,6 +81,11 @@ export default function QrGeneratorTool() {
 
 		// ファイルの読み込みを開始
 		reader.readAsDataURL(file);
+	};
+
+	//ダウンロードハンドラー
+	const handleDownload = () => {
+		downloadQRCode(text, qrRef);
 	};
 
 	return (
@@ -455,7 +389,7 @@ export default function QrGeneratorTool() {
 							<button
 								type="button"
 								className="btn btn-primary"
-								onClick={downloadQRCode}
+								onClick={handleDownload}
 							>
 								ダウンロードする
 							</button>
