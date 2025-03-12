@@ -164,6 +164,8 @@ export default function QrGeneratorTool() {
 								className="range w-full"
 								defaultValue={size}
 								onChange={(e) => setSize(Number.parseInt(e.target.value, 10))}
+								title="QRコードのサイズ調整"
+								aria-label="QRコードのサイズ調整"
 							/>
 							<p>余白：{margin}px</p>
 							<input
@@ -173,6 +175,8 @@ export default function QrGeneratorTool() {
 								className="range w-full"
 								defaultValue={margin}
 								onChange={(e) => setMargin(Number.parseInt(e.target.value, 10))}
+								title="QRコードの余白調整"
+								aria-label="QRコードの余白調整"
 							/>
 							<div className="card card-border">
 								<div className="card-body grid grid-cols-2">
@@ -310,6 +314,8 @@ export default function QrGeneratorTool() {
 											onChange={(e) =>
 												setAddImageSize(Number.parseInt(e.target.value, 10))
 											}
+											title="QRコードに追加する画像のサイズ調整"
+											aria-label="QRコードに追加する画像のサイズ調整"
 										/>
 										<p className="text-base-content/60 mb-5">
 											QRコードが上手く読み取れない場合は中央の画像サイズを小さくし、エラー訂正レベルを高く設定してください。
@@ -396,7 +402,7 @@ export default function QrGeneratorTool() {
 									className="bg-base-content flex items-center justify-center"
 								>
 									<p className="text-white dark:text-gray-800">
-										QRコードがありません
+										URLかテキストを入力してください
 									</p>
 								</div>
 							)}
