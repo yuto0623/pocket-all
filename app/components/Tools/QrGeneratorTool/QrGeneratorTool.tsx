@@ -16,6 +16,7 @@ export default function QrGeneratorTool() {
 
 	//QRコードに画像を追加するかどうか
 	const [addImage, setAddImage] = useState(false);
+	const [addImageSize, setAddImageSize] = useState(50);
 
 	// QRコードのエラー訂正レベル
 	const [errorCorrectionLevel, setErrorCorrectionLevel] =
@@ -295,6 +296,20 @@ export default function QrGeneratorTool() {
 								</div>
 								{addImage && (
 									<div>
+										<p className="mb-2">画像サイズ：{addImageSize}px</p>
+										<input
+											type="range"
+											min={20}
+											max={150}
+											className="range w-full mb-5"
+											defaultValue={addImageSize}
+											onChange={(e) =>
+												setAddImageSize(Number.parseInt(e.target.value, 10))
+											}
+										/>
+										<p className="text-base-content/60 mb-5">
+											QRコードが上手く読み取れない場合は画像サイズを小さくし、エラー訂正レベルを高く設定してください。
+										</p>
 										<div className="flex items-center gap-5">
 											<input
 												type="file"
@@ -355,8 +370,8 @@ export default function QrGeneratorTool() {
 											? {
 													excavate: true,
 													src: uploadedImage,
-													height: 50,
-													width: 50,
+													height: addImageSize,
+													width: addImageSize,
 												}
 											: undefined
 									}
