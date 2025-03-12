@@ -6,7 +6,7 @@ export default function Header() {
 		<header className="navbar bg-base-100 shadow-sm">
 			<div className="flex-1">
 				<Link href="/" className="btn btn-ghost text-xl">
-					<h1>PocketALL</h1>
+					<h1>PocketALL(仮)</h1>
 				</Link>
 			</div>
 			<div className="flex-none">
