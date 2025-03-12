@@ -1,4 +1,5 @@
 // components/QrColorPicker.tsx
+import React from "react";
 import { ColorPicker, type IColor } from "react-color-palette";
 import "react-color-palette/css";
 
@@ -13,7 +14,7 @@ type QrColorPickerProps = {
 	onHexInputChange: (value: string) => void;
 };
 
-export default function QrColorPicker({
+function QrColorPicker({
 	id,
 	label,
 	color,
@@ -61,3 +62,6 @@ export default function QrColorPicker({
 		</div>
 	);
 }
+
+// コンポーネントをメモ化してエクスポート
+export default React.memo(QrColorPicker);
