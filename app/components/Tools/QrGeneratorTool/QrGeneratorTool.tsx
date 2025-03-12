@@ -1,10 +1,11 @@
 "use client";
 import { default as NextImage } from "next/image";
-import { QRCodeSVG } from "qrcode.react";
-import { type ComponentProps, useRef, useState } from "react";
+import type { QRCodeSVG } from "qrcode.react";
+import { type ComponentProps, useCallback, useRef, useState } from "react";
 import { ColorPicker, type IColor, useColor } from "react-color-palette";
 import { FaLink, FaSpinner, FaTimes } from "react-icons/fa";
 import { Link as Scroll } from "react-scroll";
+import QrCodePreview from "./components/QrCodePreview";
 import QrColorPicker from "./components/QrColorPicker";
 import { useQrDownload } from "./hooks/useQrDownload";
 
@@ -47,6 +48,7 @@ export default function QrGeneratorTool() {
 		setFrontColor(newColor);
 		setFrontHexInput(newColor.hex);
 	};
+
 	const handleBackColorChange = (newColor: IColor) => {
 		setBackColor(newColor);
 		setBackHexInput(newColor.hex);
@@ -85,9 +87,9 @@ export default function QrGeneratorTool() {
 	};
 
 	//ダウンロードハンドラー
-	const handleDownload = () => {
+	const handleDownload = useCallback(() => {
 		downloadQRCode(text, qrRef);
-	};
+	}, [downloadQRCode, text]);
 
 	return (
 		<div>
@@ -293,57 +295,19 @@ export default function QrGeneratorTool() {
 					</div>
 				</div>
 				<div>
-					<div className="card card-border">
-						<div className="card-body items-center text-center">
-							<h2 className="card-title" id="qr-code-preview">
-								QRコードプレビュー
-							</h2>
-							{text ? (
-								<QRCodeSVG
-									ref={qrRef}
-									value={text}
-									size={size}
-									bgColor={backColor.hex}
-									fgColor={frontColor.hex}
-									level={errorCorrectionLevel}
-									marginSize={margin}
-									className="border border-base-content"
-									imageSettings={
-										addImage && uploadedImage
-											? {
-													excavate: true,
-													src: uploadedImage,
-													height: addImageSize,
-													width: addImageSize,
-												}
-											: undefined
-									}
-								/>
-							) : (
-								<div
-									style={{
-										width: `${size}px`,
-										height: `${size}px`,
-									}}
-									className="bg-base-content flex items-center justify-center"
-								>
-									<p className="text-white dark:text-gray-800">
-										URLかテキストを入力してください
-									</p>
-								</div>
-							)}
-							<p className="text-sm text-base-content/60 mb-5">
-								{size} x {size} ピクセル
-							</p>
-							<button
-								type="button"
-								className="btn btn-primary"
-								onClick={handleDownload}
-							>
-								ダウンロードする
-							</button>
-						</div>
-					</div>
+					<QrCodePreview
+						ref={qrRef}
+						text={text}
+						size={size}
+						margin={margin}
+						frontColor={frontColor.hex}
+						backColor={backColor.hex}
+						errorCorrectionLevel={errorCorrectionLevel}
+						addImage={addImage}
+						uploadedImage={uploadedImage}
+						addImageSize={addImageSize}
+						onDownload={handleDownload}
+					/>
 				</div>
 			</div>
 		</div>
