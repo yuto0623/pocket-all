@@ -159,6 +159,7 @@ export default function QrGeneratorTool() {
 										hexInput={frontHexInput}
 										popoverId="popover-1"
 										anchorName="[anchor-name:--anchor-1]"
+										className="dropdown [position-anchor:--anchor-1]"
 										onColorChange={handleFrontColorChange}
 										onHexInputChange={(newValue) => {
 											setFrontHexInput(newValue);
@@ -179,6 +180,7 @@ export default function QrGeneratorTool() {
 										hexInput={backHexInput}
 										popoverId="popover-2"
 										anchorName="[anchor-name:--anchor-2]"
+										className="dropdown dropdown-center [position-anchor:--anchor-2]"
 										onColorChange={handleBackColorChange}
 										onHexInputChange={(newValue) => {
 											setBackHexInput(newValue);

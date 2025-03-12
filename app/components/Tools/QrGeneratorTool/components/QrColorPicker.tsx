@@ -10,6 +10,7 @@ type QrColorPickerProps = {
 	hexInput: string;
 	popoverId: string;
 	anchorName: string;
+	className: string;
 	onColorChange: (newColor: IColor) => void;
 	onHexInputChange: (value: string) => void;
 };
@@ -21,6 +22,7 @@ function QrColorPicker({
 	hexInput,
 	popoverId,
 	anchorName,
+	className,
 	onColorChange,
 	onHexInputChange,
 }: QrColorPickerProps) {
@@ -47,11 +49,7 @@ function QrColorPicker({
 					aria-label={`${label}の16進数カラーコード`}
 				/>
 			</div>
-			<div
-				className="dropdown [position-anchor:--anchor-1]"
-				popover="auto"
-				id={popoverId}
-			>
+			<div className={className} popover="auto" id={popoverId}>
 				<ColorPicker
 					color={color}
 					onChange={onColorChange}
