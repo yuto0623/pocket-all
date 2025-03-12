@@ -25,10 +25,10 @@ export default function Home() {
 						href="/qr-generator-tool"
 						image={
 							<Image
-								src="https://placehold.jp/928x548.png"
-								width={928}
-								height={548}
-								alt="Shoes"
+								src="/QrGeneratorTool/thumbnail.png"
+								width={1408}
+								height={768}
+								alt=""
 							/>
 						}
 					>
