@@ -260,7 +260,7 @@ export default function QrGeneratorTool() {
 											/>
 										</div>
 										<div
-											className="dropdown [position-anchor:--anchor-2]"
+											className="dropdown dropdown-center [position-anchor:--anchor-2]"
 											popover="auto"
 											id="popover-2"
 										>
