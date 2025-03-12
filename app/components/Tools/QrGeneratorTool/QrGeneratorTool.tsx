@@ -26,8 +26,8 @@ export default function QrGeneratorTool() {
 		// 画像がロードされた後の処理
 		img.onload = () => {
 			// Canvasのサイズを設定
-			canvas.width = 250;
-			canvas.height = 250;
+			canvas.width = size;
+			canvas.height = size;
 
 			// CanvasにQRコードを描画
 			const ctx = canvas.getContext("2d");
