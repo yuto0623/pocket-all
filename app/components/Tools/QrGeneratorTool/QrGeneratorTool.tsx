@@ -274,7 +274,7 @@ export default function QrGeneratorTool() {
 									</div>
 								</div>
 							</div>
-							<p>エラー訂正レベル</p>
+							<label htmlFor="error-correction-level">エラー訂正レベル</label>
 							<select
 								className="select w-full"
 								value={errorCorrectionLevel}
@@ -283,6 +283,7 @@ export default function QrGeneratorTool() {
 										e.target.value as QRCodeSVGProps["level"],
 									)
 								}
+								id="error-correction-level"
 							>
 								<option value="L">L:低 (約7％のエラー訂正)</option>
 								<option value="M">M：中 (約15%のエラー訂正)</option>
