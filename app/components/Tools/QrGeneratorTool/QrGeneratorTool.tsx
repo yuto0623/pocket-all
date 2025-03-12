@@ -1,12 +1,39 @@
 "use client";
 import { QRCodeSVG } from "qrcode.react";
 import { useRef, useState } from "react";
+import {
+	ColorPicker,
+	Hue,
+	type IColor,
+	Saturation,
+	useColor,
+} from "react-color-palette";
 import { FaLink } from "react-icons/fa";
+import "react-color-palette/css";
 
 export default function QrGeneratorTool() {
 	const [text, setText] = useState("https://example.com");
-	const [size, setSize] = useState(40);
+	const [size, setSize] = useState(256);
+
+	const initialFrontColor = "#000000";
+	const initialBackColor = "#FFFFFF";
+
+	const [frontColor, setFrontColor] = useColor(initialFrontColor);
+	const [frontHexInput, setFrontHexInput] = useState(initialFrontColor);
+	const [backColor, setBackColor] = useColor(initialBackColor);
+	const [backHexInput, setBackHexInput] = useState(initialBackColor);
+
 	const qrRef = useRef(null);
+
+	// カラーピッカーが変更されたときにhexInputも更新
+	const handleFrontColorChange = (newColor: IColor) => {
+		setFrontColor(newColor);
+		setFrontHexInput(newColor.hex);
+	};
+	const handleBackColorChange = (newColor: IColor) => {
+		setBackColor(newColor);
+		setBackHexInput(newColor.hex);
+	};
 
 	// QRコードをダウンロードする関数
 	const downloadQRCode = () => {
@@ -94,38 +121,122 @@ export default function QrGeneratorTool() {
 								defaultValue={size}
 								onChange={(e) => setSize(Number.parseInt(e.target.value, 10))}
 							/>
+							<div className="card card-border">
+								<div className="card-body grid grid-cols-2">
+									<div className="flex items-center">
+										<div className="flex">
+											<button
+												type="button"
+												popoverTarget="popover-1"
+												className="btn w-10 [anchor-name:--anchor-1]"
+												style={{ backgroundColor: `${frontColor.hex}` }}
+											/>
+											<input
+												type="text"
+												className="input"
+												value={frontHexInput}
+												onChange={(e) => {
+													const newValue = e.target.value;
+													setFrontHexInput(newValue);
+
+													// 有効な16進数カラーコードの場合のみfrontColorを更新
+													if (
+														/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)
+													) {
+														setFrontColor({
+															hex: newValue,
+															rgb: frontColor.rgb,
+															hsv: frontColor.hsv,
+														});
+													}
+												}}
+											/>
+										</div>
+										<div
+											className="dropdown [position-anchor:--anchor-1]"
+											popover="auto"
+											id="popover-1"
+										>
+											<ColorPicker
+												color={frontColor}
+												onChange={handleFrontColorChange}
+												hideInput={["rgb", "hsv"]}
+												hideAlpha
+											/>
+										</div>
+									</div>
+									<div>
+										<div className="flex">
+											<button
+												type="button"
+												popoverTarget="popover-2"
+												className="btn w-10 [anchor-name:--anchor-2]"
+												style={{ backgroundColor: `${backColor.hex}` }}
+											/>
+											<input
+												type="text"
+												className="input"
+												value={backHexInput}
+												onChange={(e) => {
+													const newValue = e.target.value;
+													setBackHexInput(newValue);
+
+													// 有効な16進数カラーコードの場合のみfrontColorを更新
+													if (
+														/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)
+													) {
+														setBackColor({
+															hex: newValue,
+															rgb: backColor.rgb,
+															hsv: backColor.hsv,
+														});
+													}
+												}}
+											/>
+										</div>
+										<div
+											className="dropdown [position-anchor:--anchor-2]"
+											popover="auto"
+											id="popover-2"
+										>
+											<ColorPicker
+												color={backColor}
+												onChange={handleBackColorChange}
+												hideInput={["rgb", "hsv"]}
+												hideAlpha
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div>
-					{text ? (
-						<div className="card card-border">
-							<div className="card-body items-center text-center">
-								<h2 className="card-title">QRコードプレビュー</h2>
-								<QRCodeSVG
-									ref={qrRef}
-									value={text}
-									size={size}
-									bgColor="#FFFFFF"
-									fgColor="#000000"
-									level="M"
-									marginSize={3}
-								/>
-								<p className="text-sm text-gray-500 mb-5">
-									{size}px x {size}px
-								</p>
-								<button
-									type="button"
-									className="btn btn-primary"
-									onClick={downloadQRCode}
-								>
-									ダウンロードする
-								</button>
-							</div>
+					<div className="card card-border">
+						<div className="card-body items-center text-center">
+							<h2 className="card-title">QRコードプレビュー</h2>
+							<QRCodeSVG
+								ref={qrRef}
+								value={text}
+								size={size}
+								bgColor="#FFFFFF"
+								fgColor="#000000"
+								level="M"
+								marginSize={3}
+							/>
+							<p className="text-sm text-gray-500 mb-5">
+								{size}px x {size}px
+							</p>
+							<button
+								type="button"
+								className="btn btn-primary"
+								onClick={downloadQRCode}
+							>
+								ダウンロードする
+							</button>
 						</div>
-					) : (
-						<p className="text-gray-500">テキストを入力してください</p>
-					)}
+					</div>
 				</div>
 			</div>
 		</div>
