@@ -184,6 +184,8 @@ export default function QrGeneratorTool() {
 												popoverTarget="popover-1"
 												className="btn w-10 [anchor-name:--anchor-1]"
 												style={{ backgroundColor: `${frontColor.hex}` }}
+												title="前景色の選択"
+												aria-label="前景色の選択"
 											/>
 											<input
 												type="text"
@@ -227,6 +229,8 @@ export default function QrGeneratorTool() {
 												popoverTarget="popover-2"
 												className="btn w-10 [anchor-name:--anchor-2]"
 												style={{ backgroundColor: `${backColor.hex}` }}
+												title="背景色の選択"
+												aria-label="背景色の選択"
 											/>
 											<input
 												type="text"
