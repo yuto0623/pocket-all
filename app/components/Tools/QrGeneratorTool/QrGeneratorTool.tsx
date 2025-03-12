@@ -80,7 +80,7 @@ export default function QrGeneratorTool() {
 					</div>
 				</div>
 			</div>
-			<div className="grid grid-cols-2 gap-10">
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
 				<div>
 					<div className="card card-border">
 						<div className="card-body">
