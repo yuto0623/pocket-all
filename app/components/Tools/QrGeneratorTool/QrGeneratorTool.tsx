@@ -1,17 +1,14 @@
 "use client";
-import { QRCodeSVG, type QRCodeSVGProps } from "qrcode.react";
-import { useRef, useState } from "react";
-import {
-	ColorPicker,
-	Hue,
-	type IColor,
-	Saturation,
-	useColor,
-} from "react-color-palette";
+import { QRCodeSVG } from "qrcode.react";
+import { type ComponentProps, useRef, useState } from "react";
+import { ColorPicker, type IColor, useColor } from "react-color-palette";
 import { FaLink } from "react-icons/fa";
 import "react-color-palette/css";
 
 export default function QrGeneratorTool() {
+	// Define type for QRCodeSVG props
+	type QRCodeSVGProps = ComponentProps<typeof QRCodeSVG>;
+
 	const [text, setText] = useState("https://example.com");
 	const [size, setSize] = useState(256);
 	const [margin, setMargin] = useState(2);
@@ -227,7 +224,11 @@ export default function QrGeneratorTool() {
 							<select
 								className="select w-full"
 								value={errorCorrectionLevel}
-								onChange={(e) => setErrorCorrectionLevel(e.target.value)}
+								onChange={(e) =>
+									setErrorCorrectionLevel(
+										e.target.value as QRCodeSVGProps["level"],
+									)
+								}
 							>
 								<option value="L">L:低 (約7％のエラー訂正)</option>
 								<option value="M">M：中 (約15%のエラー訂正)</option>
