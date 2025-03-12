@@ -5,7 +5,6 @@ import Header from "./components/Header/Header";
 export default function Home() {
 	return (
 		<div>
-			<Header />
 			<div className="flex flex-col">
 				<div className="max-w-5xl mx-auto text-center py-12 px-6">
 					<h1 className="text-4xl font-bold mb-4">PocketALL</h1>
@@ -20,7 +19,7 @@ export default function Home() {
 					</p>
 				</div>
 				<div className="divider" />
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full max-w-[1600px] mx-auto">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full max-w-[1600px] mx-auto mb-10">
 					<Card title="testTitle" href="/">
 						<p>がいよう</p>
 					</Card>
@@ -55,9 +54,6 @@ export default function Home() {
 						<p>がいよう</p>
 					</Card>
 				</div>
-				<button type="button" className="btn">
-					Default
-				</button>
 			</div>
 		</div>
 	);
