@@ -9,7 +9,7 @@ export default function QrGeneratorTool() {
 	// Define type for QRCodeSVG props
 	type QRCodeSVGProps = ComponentProps<typeof QRCodeSVG>;
 
-	const [text, setText] = useState("https://example.com");
+	const [text, setText] = useState("");
 	const [size, setSize] = useState(256);
 	const [margin, setMargin] = useState(2);
 
@@ -249,16 +249,30 @@ export default function QrGeneratorTool() {
 					<div className="card card-border">
 						<div className="card-body items-center text-center">
 							<h2 className="card-title">QRコードプレビュー</h2>
-							<QRCodeSVG
-								ref={qrRef}
-								value={text}
-								size={size}
-								bgColor={backColor.hex}
-								fgColor={frontColor.hex}
-								level={errorCorrectionLevel}
-								marginSize={margin}
-								className="border border-base-content"
-							/>
+							{text ? (
+								<QRCodeSVG
+									ref={qrRef}
+									value={text}
+									size={size}
+									bgColor={backColor.hex}
+									fgColor={frontColor.hex}
+									level={errorCorrectionLevel}
+									marginSize={margin}
+									className="border border-base-content"
+								/>
+							) : (
+								<div
+									style={{
+										width: `${size}px`,
+										height: `${size}px`,
+									}}
+									className="bg-base-content flex items-center justify-center"
+								>
+									<p className="text-white dark:text-gray-800">
+										QRコードがありません
+									</p>
+								</div>
+							)}
 							<p className="text-sm text-base-content/60 mb-5">
 								{size} x {size} ピクセル
 							</p>
