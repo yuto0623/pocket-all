@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "PocketALL",
+	title: {
+		template: "%s | PocketALL",
+		default: "PocketALL",
+	},
 	description:
 		"PocketALLはポケットから取り出すみたいに簡単に使えるツール集です。",
 };
