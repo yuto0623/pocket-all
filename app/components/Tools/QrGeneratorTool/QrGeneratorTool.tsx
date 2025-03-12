@@ -16,13 +16,15 @@ export default function QrGeneratorTool() {
 					</h2>
 					<fieldset className="fieldset w-full max-w-3xl mx-auto">
 						<legend className="fieldset-legend mr-auto">URL</legend>
-						<input
-							type="text"
-							className="input w-full"
-							required
-							placeholder="https://"
-							onChange={(e) => setText(e.target.value)}
-						/>
+						<label className="input w-full">
+							<FaLink className="opacity-70" />
+							<input
+								type="text"
+								required
+								placeholder="https://"
+								onChange={(e) => setText(e.target.value)}
+							/>
+						</label>
 						<p className="fieldset-label">URLかテキストを入力</p>
 					</fieldset>
 					<div className="justify-end card-actions">
