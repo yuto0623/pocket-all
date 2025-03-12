@@ -14,6 +14,7 @@ import "react-color-palette/css";
 export default function QrGeneratorTool() {
 	const [text, setText] = useState("https://example.com");
 	const [size, setSize] = useState(256);
+	const [margin, setMargin] = useState(2);
 
 	const initialFrontColor = "#000000";
 	const initialBackColor = "#FFFFFF";
@@ -121,6 +122,15 @@ export default function QrGeneratorTool() {
 								defaultValue={size}
 								onChange={(e) => setSize(Number.parseInt(e.target.value, 10))}
 							/>
+							<p>余白：{margin}px</p>
+							<input
+								type="range"
+								min={0}
+								max={50}
+								className="range w-full"
+								defaultValue={margin}
+								onChange={(e) => setMargin(Number.parseInt(e.target.value, 10))}
+							/>
 							<div className="card card-border">
 								<div className="card-body grid grid-cols-2">
 									<div className="flex items-center">
@@ -223,7 +233,7 @@ export default function QrGeneratorTool() {
 								bgColor={backColor.hex}
 								fgColor={frontColor.hex}
 								level="M"
-								marginSize={3}
+								marginSize={margin}
 							/>
 							<p className="text-sm text-gray-500 mb-5">
 								{size} x {size} ピクセル
