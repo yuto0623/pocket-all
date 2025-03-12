@@ -5,6 +5,7 @@ import { type ComponentProps, useRef, useState } from "react";
 import { ColorPicker, type IColor, useColor } from "react-color-palette";
 import { FaLink, FaSpinner, FaTimes } from "react-icons/fa";
 import { Link as Scroll } from "react-scroll";
+import QrColorPicker from "./components/QrColorPicker";
 import { useQrDownload } from "./hooks/useQrDownload";
 
 export default function QrGeneratorTool() {
@@ -149,98 +150,46 @@ export default function QrGeneratorTool() {
 							/>
 							<div className="card card-border">
 								<div className="card-body grid grid-cols-2">
-									<div>
-										<label htmlFor="front-color-picker">前景色</label>
-										<div className="flex">
-											<button
-												type="button"
-												popoverTarget="popover-1"
-												className="btn w-10 [anchor-name:--anchor-1]"
-												style={{ backgroundColor: `${frontColor.hex}` }}
-												title="前景色の選択"
-												id="front-color-picker"
-											/>
-											<input
-												type="text"
-												className="input"
-												value={frontHexInput}
-												onChange={(e) => {
-													const newValue = e.target.value;
-													setFrontHexInput(newValue);
-
-													// 有効な16進数カラーコードの場合のみfrontColorを更新
-													if (
-														/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)
-													) {
-														setFrontColor({
-															hex: newValue,
-															rgb: frontColor.rgb,
-															hsv: frontColor.hsv,
-														});
-													}
-												}}
-												aria-label="前景色の16進数カラーコード"
-											/>
-										</div>
-										<div
-											className="dropdown [position-anchor:--anchor-1]"
-											popover="auto"
-											id="popover-1"
-										>
-											<ColorPicker
-												color={frontColor}
-												onChange={handleFrontColorChange}
-												hideInput={["rgb", "hsv"]}
-												hideAlpha
-											/>
-										</div>
-									</div>
-									<div>
-										<label htmlFor="back-color-picker">背景色</label>
-										<div className="flex">
-											<button
-												type="button"
-												popoverTarget="popover-2"
-												className="btn w-10 [anchor-name:--anchor-2]"
-												style={{ backgroundColor: `${backColor.hex}` }}
-												title="背景色の選択"
-												id="back-color-picker"
-											/>
-											<input
-												type="text"
-												className="input"
-												value={backHexInput}
-												onChange={(e) => {
-													const newValue = e.target.value;
-													setBackHexInput(newValue);
-
-													// 有効な16進数カラーコードの場合のみfrontColorを更新
-													if (
-														/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)
-													) {
-														setBackColor({
-															hex: newValue,
-															rgb: backColor.rgb,
-															hsv: backColor.hsv,
-														});
-													}
-												}}
-												aria-label="背景色の16進数カラーコード"
-											/>
-										</div>
-										<div
-											className="dropdown dropdown-center [position-anchor:--anchor-2]"
-											popover="auto"
-											id="popover-2"
-										>
-											<ColorPicker
-												color={backColor}
-												onChange={handleBackColorChange}
-												hideInput={["rgb", "hsv"]}
-												hideAlpha
-											/>
-										</div>
-									</div>
+									<QrColorPicker
+										id="front-color-picker"
+										label="前景色"
+										color={frontColor}
+										hexInput={frontHexInput}
+										popoverId="popover-1"
+										anchorName="[anchor-name:--anchor-1]"
+										onColorChange={handleFrontColorChange}
+										onHexInputChange={(newValue) => {
+											setFrontHexInput(newValue);
+											// 有効な16進数カラーコードの場合のみfrontColorを更新
+											if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
+												setFrontColor({
+													hex: newValue,
+													rgb: frontColor.rgb,
+													hsv: frontColor.hsv,
+												});
+											}
+										}}
+									/>
+									<QrColorPicker
+										id="back-color-picker"
+										label="背景色"
+										color={backColor}
+										hexInput={backHexInput}
+										popoverId="popover-2"
+										anchorName="[anchor-name:--anchor-2]"
+										onColorChange={handleBackColorChange}
+										onHexInputChange={(newValue) => {
+											setBackHexInput(newValue);
+											// 有効な16進数カラーコードの場合のみbackColorを更新
+											if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
+												setBackColor({
+													hex: newValue,
+													rgb: backColor.rgb,
+													hsv: backColor.hsv,
+												});
+											}
+										}}
+									/>
 								</div>
 							</div>
 							<label htmlFor="error-correction-level">エラー訂正レベル</label>
