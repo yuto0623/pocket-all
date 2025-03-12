@@ -1,16 +1,25 @@
-export default function Card() {
+import Link from "next/link";
+import type { ReactNode } from "react";
+
+type CardProps = {
+	title: string;
+	children: ReactNode;
+	href: string;
+};
+
+export default function Card({ title, children, href }: CardProps) {
 	return (
 		<div className="card card-border">
 			<div className="card-body">
 				<h2 className="card-title">
-					test Card
+					{title}
 					{/* <div className="badge badge-neutral">Primary</div> */}
 				</h2>
-				<p>testsetstestse</p>
+				<div>{children}</div>
 				<div className="justify-end card-actions">
-					<button type="button" className="btn btn-primary">
-						Buy Now
-					</button>
+					<Link href={href} className="btn btn-primary">
+						このツールを使う
+					</Link>
 				</div>
 			</div>
 		</div>
