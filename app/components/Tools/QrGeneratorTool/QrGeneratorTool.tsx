@@ -1,5 +1,5 @@
 "use client";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeSVG, type QRCodeSVGProps } from "qrcode.react";
 import { useRef, useState } from "react";
 import {
 	ColorPicker,
@@ -15,6 +15,10 @@ export default function QrGeneratorTool() {
 	const [text, setText] = useState("https://example.com");
 	const [size, setSize] = useState(256);
 	const [margin, setMargin] = useState(2);
+
+	// QRコードのエラー訂正レベル
+	const [errorCorrectionLevel, setErrorCorrectionLevel] =
+		useState<QRCodeSVGProps["level"]>("M");
 
 	const initialFrontColor = "#000000";
 	const initialBackColor = "#FFFFFF";
@@ -219,6 +223,22 @@ export default function QrGeneratorTool() {
 									</div>
 								</div>
 							</div>
+							<p>エラー訂正レベル</p>
+							<select
+								className="select w-full"
+								value={errorCorrectionLevel}
+								onChange={(e) => setErrorCorrectionLevel(e.target.value)}
+							>
+								<option value="L">L:低 (約7％のエラー訂正)</option>
+								<option value="M">M：中 (約15%のエラー訂正)</option>
+								<option value="Q">Q：標準 (約25%のエラー訂正)</option>
+								<option value="H">H：高 (約30%のエラー訂正)</option>
+							</select>
+							<p className="text-base-content/60">
+								エラー訂正レベルが高いほどQRコードの一部が失われても読み取れる可能性が上がります。
+								<br />
+								また、エラー訂正レベルが高いほどQRコードがより複雑になります。
+							</p>
 						</div>
 					</div>
 				</div>
@@ -232,7 +252,7 @@ export default function QrGeneratorTool() {
 								size={size}
 								bgColor={backColor.hex}
 								fgColor={frontColor.hex}
-								level="M"
+								level={errorCorrectionLevel}
 								marginSize={margin}
 							/>
 							<p className="text-sm text-gray-500 mb-5">
