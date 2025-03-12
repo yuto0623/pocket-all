@@ -308,7 +308,7 @@ export default function QrGeneratorTool() {
 											}
 										/>
 										<p className="text-base-content/60 mb-5">
-											QRコードが上手く読み取れない場合は画像サイズを小さくし、エラー訂正レベルを高く設定してください。
+											QRコードが上手く読み取れない場合は中央の画像サイズを小さくし、エラー訂正レベルを高く設定してください。
 										</p>
 										<div className="flex items-center gap-5">
 											<input
