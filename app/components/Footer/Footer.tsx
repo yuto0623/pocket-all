@@ -17,6 +17,8 @@ export default function Footer() {
 					href="https://github.com/yuto0623/pocket-all"
 					target="_blank"
 					rel="noopener noreferrer"
+					title="GitHubリポジトリへのリンク"
+					aria-label="GitHubリポジトリへのリンク"
 				>
 					<FaGithub size={25} />
 				</a>
