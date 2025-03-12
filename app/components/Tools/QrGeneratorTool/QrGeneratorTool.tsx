@@ -13,6 +13,9 @@ export default function QrGeneratorTool() {
 	const [size, setSize] = useState(256);
 	const [margin, setMargin] = useState(2);
 
+	//QRコードに画像を追加するかどうか
+	const [addImage, setAddImage] = useState(false);
+
 	// QRコードのエラー訂正レベル
 	const [errorCorrectionLevel, setErrorCorrectionLevel] =
 		useState<QRCodeSVGProps["level"]>("M");
@@ -242,6 +245,21 @@ export default function QrGeneratorTool() {
 								<br />
 								また、エラー訂正レベルが高いほどQRコードがより複雑になります。
 							</p>
+							<div className="card card-border">
+								<div className="card-body flex flex-row">
+									<input
+										type="checkbox"
+										className="toggle"
+										onChange={(e) => setAddImage(e.target.checked)}
+									/>
+									<p>QRコードの中央に画像を追加</p>
+								</div>
+							</div>
+              {addImage && (
+                <div>
+                  <p>test</p>
+                </div>
+              )}
 						</div>
 					</div>
 				</div>
