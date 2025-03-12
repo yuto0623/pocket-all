@@ -246,20 +246,22 @@ export default function QrGeneratorTool() {
 								また、エラー訂正レベルが高いほどQRコードがより複雑になります。
 							</p>
 							<div className="card card-border">
-								<div className="card-body flex flex-row">
-									<input
-										type="checkbox"
-										className="toggle"
-										onChange={(e) => setAddImage(e.target.checked)}
-									/>
-									<p>QRコードの中央に画像を追加</p>
+								<div className="card-body">
+									<div className="flex flex-row mb-5">
+										<input
+											type="checkbox"
+											className="toggle"
+											onChange={(e) => setAddImage(e.target.checked)}
+										/>
+										<p>QRコードの中央に画像を追加</p>
+									</div>
+									{addImage && (
+										<div>
+											<p>test</p>
+										</div>
+									)}
 								</div>
 							</div>
-              {addImage && (
-                <div>
-                  <p>test</p>
-                </div>
-              )}
 						</div>
 					</div>
 				</div>
