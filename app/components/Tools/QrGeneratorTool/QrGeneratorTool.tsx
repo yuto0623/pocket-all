@@ -1,4 +1,5 @@
 "use client";
+import { default as NextImage } from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { type ComponentProps, useRef, useState } from "react";
 import { ColorPicker, type IColor, useColor } from "react-color-palette";
@@ -282,21 +283,22 @@ export default function QrGeneratorTool() {
 								<br />
 								また、エラー訂正レベルが高いほどQRコードがより複雑になります。
 							</p>
-							<div className="card card-border">
-								<div className="card-body">
-									<div className="flex flex-row gap-3 mb-5">
-										<input
-											type="checkbox"
-											className="toggle"
-											onChange={(e) => setAddImage(e.target.checked)}
-										/>
-										<p>QRコードの中央に画像を追加</p>
-									</div>
-									{addImage && (
+							<span className="divider" />
+							<div className="">
+								<div className="flex flex-row gap-3 mb-5">
+									<input
+										type="checkbox"
+										className="toggle"
+										onChange={(e) => setAddImage(e.target.checked)}
+									/>
+									<p>QRコードの中央に画像を追加</p>
+								</div>
+								{addImage && (
+									<div>
 										<div className="flex items-center gap-5">
 											<input
 												type="file"
-												className="file-input"
+												className="file-input mb-5"
 												onChange={handleFileUpload}
 												accept="image/jpeg, image/png, image/gif"
 												disabled={isUploading}
@@ -318,8 +320,18 @@ export default function QrGeneratorTool() {
 												</div>
 											)}
 										</div>
-									)}
-								</div>
+										{uploadedImage && !isUploading && !uploadError && (
+											<div>
+												<NextImage
+													src={uploadedImage}
+													alt="Uploaded image"
+													width={50}
+													height={50}
+												/>
+											</div>
+										)}
+									</div>
+								)}
 							</div>
 						</div>
 					</div>
@@ -338,6 +350,16 @@ export default function QrGeneratorTool() {
 									level={errorCorrectionLevel}
 									marginSize={margin}
 									className="border border-base-content"
+									imageSettings={
+										addImage && uploadedImage
+											? {
+													excavate: true,
+													src: uploadedImage,
+													height: 50,
+													width: 50,
+												}
+											: undefined
+									}
 								/>
 							) : (
 								<div
