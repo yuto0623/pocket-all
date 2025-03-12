@@ -255,8 +255,9 @@ export default function QrGeneratorTool() {
 								fgColor={frontColor.hex}
 								level={errorCorrectionLevel}
 								marginSize={margin}
+								className="border border-base-content"
 							/>
-							<p className="text-sm text-gray-500 mb-5">
+							<p className="text-sm text-base-content/60 mb-5">
 								{size} x {size} ピクセル
 							</p>
 							<button
