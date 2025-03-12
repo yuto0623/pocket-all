@@ -20,37 +20,77 @@ export default function Home() {
 				</div>
 				<div className="divider" />
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full max-w-[1600px] mx-auto mb-10">
-					<Card title="testTitle" href="/">
+					<Card
+						title="QRコード作成"
+						href="/"
+						image={
+							<Image
+								src="https://placehold.jp/928x548.png"
+								width={928}
+								height={548}
+								alt="Shoes"
+							/>
+						}
+					>
+						<p>
+							完全無料で安全にQRコードを生成。個人情報の収集なし、広告表示なし。
+							URLやテキストを入力するだけで、シンプルかつ安心してご利用いただけます。
+						</p>
+					</Card>
+					<Card
+						title="QRコード作成"
+						href="/"
+						image={
+							<Image
+								src="https://placehold.jp/928x548.png"
+								width={928}
+								height={548}
+								alt="Shoes"
+							/>
+						}
+					>
 						<p>がいよう</p>
 					</Card>
-					<Card title="testTitle" href="/">
+					<Card
+						title="QRコード作成"
+						href="/"
+						image={
+							<Image
+								src="https://placehold.jp/928x548.png"
+								width={928}
+								height={548}
+								alt="Shoes"
+							/>
+						}
+					>
 						<p>がいよう</p>
 					</Card>
-					<Card title="testTitle" href="/">
+					<Card
+						title="QRコード作成"
+						href="/"
+						image={
+							<Image
+								src="https://placehold.jp/928x548.png"
+								width={928}
+								height={548}
+								alt="Shoes"
+							/>
+						}
+					>
 						<p>がいよう</p>
 					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
-						<p>がいよう</p>
-					</Card>
-					<Card title="testTitle" href="/">
+					<Card
+						title="QRコード作成"
+						href="/"
+						image={
+							<Image
+								src="https://placehold.jp/928x548.png"
+								width={928}
+								height={548}
+								alt="Shoes"
+							/>
+						}
+					>
 						<p>がいよう</p>
 					</Card>
 				</div>
