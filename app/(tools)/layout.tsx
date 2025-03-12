@@ -39,7 +39,7 @@ export default function Layout({
 	}, [pathname]);
 
 	return (
-		<div className="w-full max-w-[1200px] mx-auto px-4 my-6">
+		<div className="w-full max-w-[1200px] mx-auto px-4 my-6 overflow-x-hidden">
 			<div className="breadcrumbs text-sm mb-10">
 				<ul>
 					{breadcrumbs.map((crumb, index) => {
