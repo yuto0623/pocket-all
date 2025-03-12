@@ -181,7 +181,7 @@ export default function QrGeneratorTool() {
 							smooth={true}
 							className="btn btn-primary"
 						>
-							QRコードを生成
+							QRコードをプレビュー
 						</Scroll>
 					</div>
 				</div>
