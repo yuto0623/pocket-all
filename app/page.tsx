@@ -27,7 +27,7 @@ export default function Home() {
 							href="/qr-generator-tool"
 							image={
 								<Image
-									src="/QrGeneratorTool/thumbnail.png"
+									src="/img/QrGeneratorTool/thumbnail.png"
 									width={1408}
 									height={768}
 									alt=""
@@ -39,19 +39,22 @@ export default function Home() {
 								URLやテキストを入力するだけで、シンプルかつ安心してご利用いただけます。
 							</p>
 						</Card>
-						<Card
-							title="QRコード作成"
-							href="/"
+					<Card
+							title="画像透過"
+							href="/remove-background-tool"
 							image={
 								<Image
-									src="https://placehold.jp/928x548.png"
-									width={928}
-									height={548}
-									alt="Shoes"
+									src="/img/RemoveBackgroundTool/thumbnail.png"
+									width={1408}
+									height={768}
+									alt=""
 								/>
 							}
 						>
-							<p>がいよう</p>
+							<p>
+								完全無料で簡単に画像の背景を透過。個人情報の収集なし、広告表示なし。
+								画像をアップロードするだけで、高品質な透過処理を行います。ワンクリックで透過画像をダウンロード可能。
+							</p>
 						</Card>
 						<Card
 							title="QRコード作成"

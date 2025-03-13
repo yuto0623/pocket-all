@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	openGraph: {
 		type: "website",
 		images: {
-			url: "/QrGeneratorTool/thumbnail.png",
+			url: "/img/QrGeneratorTool/thumbnail.png",
 			type: "image/png",
 			width: 1408,
 			height: 768,
