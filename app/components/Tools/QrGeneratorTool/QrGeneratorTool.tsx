@@ -150,51 +150,49 @@ export default function QrGeneratorTool() {
 								title="QRコードの余白調整"
 								aria-label="QRコードの余白調整"
 							/>
-							<div className="card card-border">
-								<div className="card-body grid grid-cols-2">
-									<QrColorPicker
-										id="front-color-picker"
-										label="前景色"
-										color={frontColor}
-										hexInput={frontHexInput}
-										popoverId="popover-1"
-										anchorName="[anchor-name:--anchor-1]"
-										className="dropdown [position-anchor:--anchor-1]"
-										onColorChange={handleFrontColorChange}
-										onHexInputChange={(newValue) => {
-											setFrontHexInput(newValue);
-											// 有効な16進数カラーコードの場合のみfrontColorを更新
-											if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
-												setFrontColor({
-													hex: newValue,
-													rgb: frontColor.rgb,
-													hsv: frontColor.hsv,
-												});
-											}
-										}}
-									/>
-									<QrColorPicker
-										id="back-color-picker"
-										label="背景色"
-										color={backColor}
-										hexInput={backHexInput}
-										popoverId="popover-2"
-										anchorName="[anchor-name:--anchor-2]"
-										className="dropdown dropdown-center [position-anchor:--anchor-2]"
-										onColorChange={handleBackColorChange}
-										onHexInputChange={(newValue) => {
-											setBackHexInput(newValue);
-											// 有効な16進数カラーコードの場合のみbackColorを更新
-											if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
-												setBackColor({
-													hex: newValue,
-													rgb: backColor.rgb,
-													hsv: backColor.hsv,
-												});
-											}
-										}}
-									/>
-								</div>
+							<div className="my-5 grid grid-cols-2">
+								<QrColorPicker
+									id="front-color-picker"
+									label="前景色"
+									color={frontColor}
+									hexInput={frontHexInput}
+									popoverId="popover-1"
+									anchorName="[anchor-name:--anchor-1]"
+									className="dropdown [position-anchor:--anchor-1]"
+									onColorChange={handleFrontColorChange}
+									onHexInputChange={(newValue) => {
+										setFrontHexInput(newValue);
+										// 有効な16進数カラーコードの場合のみfrontColorを更新
+										if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
+											setFrontColor({
+												hex: newValue,
+												rgb: frontColor.rgb,
+												hsv: frontColor.hsv,
+											});
+										}
+									}}
+								/>
+								<QrColorPicker
+									id="back-color-picker"
+									label="背景色"
+									color={backColor}
+									hexInput={backHexInput}
+									popoverId="popover-2"
+									anchorName="[anchor-name:--anchor-2]"
+									className="dropdown dropdown-center [position-anchor:--anchor-2]"
+									onColorChange={handleBackColorChange}
+									onHexInputChange={(newValue) => {
+										setBackHexInput(newValue);
+										// 有効な16進数カラーコードの場合のみbackColorを更新
+										if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
+											setBackColor({
+												hex: newValue,
+												rgb: backColor.rgb,
+												hsv: backColor.hsv,
+											});
+										}
+									}}
+								/>
 							</div>
 							<label htmlFor="error-correction-level">エラー訂正レベル</label>
 							<select
