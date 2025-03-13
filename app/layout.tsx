@@ -26,6 +26,9 @@ export const metadata: Metadata = {
 	description:
 		"PocketALLはポケットから取り出すみたいに簡単に使えるツール集です。",
 	metadataBase: new URL(baseUrl),
+	verification: {
+		google: "aGp-DvVylOKM2oA_o6jFswCH7LwYnPcYNi38QViwXdw",
+	},
 };
 
 export default function RootLayout({

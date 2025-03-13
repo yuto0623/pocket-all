@@ -2,7 +2,7 @@ import QrGeneratorTool from "@/app/components/Tools/QrGeneratorTool/QrGeneratorT
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "QRコードジェネレーター",
+	title: "QRコード作成",
 	description:
 		"完全無料で安全にQRコードを生成。個人情報の収集なし、広告表示なし。URLやテキストを入力するだけで、シンプルかつ安心してご利用いただけます。",
 	openGraph: {
