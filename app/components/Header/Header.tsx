@@ -4,14 +4,23 @@ import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
 export default function Header({
 	title,
+	subtitle,
 }: Readonly<{
 	title: ReactNode;
+	subtitle?: ReactNode;
 }>) {
 	return (
 		<header className="navbar bg-base-100 shadow-sm">
 			<div className="flex-1">
 				<Link href="/" className="btn btn-ghost text-xl">
-					<h1>{title}</h1>
+					<h1 className="leading-none">
+						{title}
+						{subtitle && (
+							<small className="inline-block ml-3 text-xs opacity-70">
+								{subtitle}
+							</small>
+						)}
+					</h1>
 				</Link>
 			</div>
 			<div className="flex-none">

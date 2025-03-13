@@ -46,7 +46,7 @@ export default function Layout({
 
 	return (
 		<>
-			<Header title={ROUTE_TITLE_MAP[pathname]} />
+			<Header title={ROUTE_TITLE_MAP[pathname]} subtitle="by PocketALL(仮)" />
 			<div className="w-full max-w-[1200px] mx-auto px-4 my-6 overflow-x-hidden">
 				<div className="breadcrumbs text-sm mb-5">
 					<ul>
