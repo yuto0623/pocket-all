@@ -4,7 +4,6 @@ import type { QRCodeSVG } from "qrcode.react";
 import { type ComponentProps, useCallback, useRef, useState } from "react";
 import { ColorPicker, type IColor, useColor } from "react-color-palette";
 import { FaLink, FaSpinner, FaTimes } from "react-icons/fa";
-import { Link as Scroll } from "react-scroll";
 import QrCodePreview from "./components/QrCodePreview";
 import QrColorPicker from "./components/QrColorPicker";
 import { useQrDownload } from "./hooks/useQrDownload";
@@ -112,18 +111,9 @@ export default function QrGeneratorTool() {
 						</label>
 						<p className="fieldset-label">URLかテキストを入力</p>
 					</fieldset>
-					<div className="justify-end card-actions sm:hidden">
-						<Scroll
-							to="qr-code-preview"
-							smooth={true}
-							className="btn btn-primary"
-						>
-							QRコードをプレビュー
-						</Scroll>
-					</div>
 				</div>
 			</div>
-			<div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+			<div className="flex flex-col-reverse sm:grid sm:grid-cols-2 gap-10">
 				<div>
 					<div className="card card-border">
 						<div className="card-body">
