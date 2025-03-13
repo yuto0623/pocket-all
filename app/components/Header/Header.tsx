@@ -1,12 +1,17 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
-export default function Header() {
+export default function Header({
+	title,
+}: Readonly<{
+	title: ReactNode;
+}>) {
 	return (
 		<header className="navbar bg-base-100 shadow-sm">
 			<div className="flex-1">
 				<Link href="/" className="btn btn-ghost text-xl">
-					<h1>PocketALL(仮)</h1>
+					<h1>{title}</h1>
 				</Link>
 			</div>
 			<div className="flex-none">

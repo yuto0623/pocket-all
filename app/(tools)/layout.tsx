@@ -2,6 +2,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import Header from "../components/Header/Header";
+
+// パスとタイトルのマッピング
+const ROUTE_TITLE_MAP: { [key: string]: string } = {
+	"/qr-generator-tool": "QRコード作成",
+};
 
 export default function Layout({
 	children,
@@ -39,26 +45,29 @@ export default function Layout({
 	}, [pathname]);
 
 	return (
-		<div className="w-full max-w-[1200px] mx-auto px-4 my-6 overflow-x-hidden">
-			<div className="breadcrumbs text-sm mb-10">
-				<ul>
-					{breadcrumbs.map((crumb, index) => {
-						// 最後の項目はリンクではなくテキストとして表示
-						const isLast = index === breadcrumbs.length - 1;
+		<>
+			<Header title={ROUTE_TITLE_MAP[pathname]} />
+			<div className="w-full max-w-[1200px] mx-auto px-4 my-6 overflow-x-hidden">
+				<div className="breadcrumbs text-sm mb-10">
+					<ul>
+						{breadcrumbs.map((crumb, index) => {
+							// 最後の項目はリンクではなくテキストとして表示
+							const isLast = index === breadcrumbs.length - 1;
 
-						return (
-							<li key={crumb.path}>
-								{isLast ? (
-									<span>{crumb.label}</span>
-								) : (
-									<Link href={crumb.path}>{crumb.label}</Link>
-								)}
-							</li>
-						);
-					})}
-				</ul>
+							return (
+								<li key={crumb.path}>
+									{isLast ? (
+										<span>{crumb.label}</span>
+									) : (
+										<Link href={crumb.path}>{crumb.label}</Link>
+									)}
+								</li>
+							);
+						})}
+					</ul>
+				</div>
+				{children}
 			</div>
-			{children}
-		</div>
+		</>
 	);
 }

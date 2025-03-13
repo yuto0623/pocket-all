@@ -41,7 +41,6 @@ export default function RootLayout({
 		<html lang="ja" suppressHydrationWarning>
 			<body className={`${mPlusRounded1c.variable} antialiased`}>
 				<ThemeProvider>
-					<Header />
 					{children}
 					<Footer />
 				</ThemeProvider>
