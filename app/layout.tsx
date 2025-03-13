@@ -11,6 +11,13 @@ const mPlusRounded1c = M_PLUS_Rounded_1c({
 	subsets: ["latin"],
 });
 
+// 環境に基づいてベースURLを決定
+const baseUrl =
+	process.env.NEXT_PUBLIC_BASE_URL ||
+	(process.env.NODE_ENV === "production"
+		? "https://pocket-all.vercel.app"
+		: "http://localhost:3000");
+
 export const metadata: Metadata = {
 	title: {
 		template: "%s | PocketALL",
@@ -18,6 +25,7 @@ export const metadata: Metadata = {
 	},
 	description:
 		"PocketALLはポケットから取り出すみたいに簡単に使えるツール集です。",
+	metadataBase: new URL(baseUrl),
 };
 
 export default function RootLayout({
