@@ -48,7 +48,7 @@ export default function Layout({
 		<>
 			<Header title={ROUTE_TITLE_MAP[pathname]} />
 			<div className="w-full max-w-[1200px] mx-auto px-4 my-6 overflow-x-hidden">
-				<div className="breadcrumbs text-sm mb-10">
+				<div className="breadcrumbs text-sm mb-5">
 					<ul>
 						{breadcrumbs.map((crumb, index) => {
 							// 最後の項目はリンクではなくテキストとして表示
