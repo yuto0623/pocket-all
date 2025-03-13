@@ -103,6 +103,7 @@ export default function QrGeneratorTool() {
 						<label className="input w-full">
 							<FaLink className="opacity-70" />
 							<input
+								id="qr-text-or-url-input"
 								type="text"
 								required
 								placeholder="https://"

@@ -59,7 +59,8 @@ function QrCodePreviewComponent(
 						}
 					/>
 				) : (
-					<div
+					<label
+						htmlFor="qr-text-or-url-input"
 						style={{
 							width: `${size}px`,
 							height: `${size}px`,
@@ -69,7 +70,7 @@ function QrCodePreviewComponent(
 						<p className="text-white dark:text-gray-800">
 							URLかテキストを入力してください
 						</p>
-					</div>
+					</label>
 				)}
 				<p className="text-sm text-base-content/60 mb-5">
 					{size} x {size} ピクセル
