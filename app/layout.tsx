@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 	description:
 		"PocketALLはポケットから取り出すみたいに簡単に使えるツール集です。",
 	metadataBase: new URL(baseUrl),
+	//Google Search Consoleの所有権確認用のメタタグ
 	verification: {
 		google: "aGp-DvVylOKM2oA_o6jFswCH7LwYnPcYNi38QViwXdw",
 	},
