@@ -23,12 +23,12 @@ export default function Header({
 					</h1>
 				</Link>
 			</div>
-			<div className="flex-none">
+			{/* <div className="flex-none">
 				<ul className="menu menu-horizontal px-1">
 					<li>
 						<Link href="/">Link</Link>
 					</li>
-					{/* <li>
+					<li>
 						<details>
 							<summary>Parent</summary>
 							<ul className="bg-base-100 rounded-t-none p-2">
@@ -40,9 +40,9 @@ export default function Header({
 								</li>
 							</ul>
 						</details>
-					</li> */}
+					</li>
 				</ul>
-			</div>
+			</div> */}
 			<ThemeSwitcher />
 		</header>
 	);
