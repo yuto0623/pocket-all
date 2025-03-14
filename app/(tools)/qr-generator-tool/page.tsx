@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "QRコード作成",
 	description:
-		"完全無料で安全にQRコードを生成。個人情報の収集なし、広告表示なし。URLやテキストを入力するだけで、シンプルかつ安心してご利用いただけます。",
+		"完全無料で安全にQRコードを生成。URLやテキストを入力するだけで、シンプルかつ安心してご利用いただけます。",
 	openGraph: {
 		type: "website",
 		images: {
