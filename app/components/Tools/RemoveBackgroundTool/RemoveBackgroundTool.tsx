@@ -242,9 +242,13 @@ export default function RemoveBackgroundTool() {
 				</div>
 			</div>
 
-			<div className="flex flex-col sm:grid sm:grid-cols-2 gap-10 mt-6">
+			<div
+				className={`flex ${uploadedImage ? "flex-col-reverse" : "flex-col"} sm:grid sm:grid-cols-2 gap-10 mt-6 `}
+			>
 				<div>
-					<div className="card card-border">
+					<div
+						className={`card-border ${uploadedImage ? "hidden sm:card" : "flex-col"}`}
+					>
 						<div className="card-body">
 							<h2 className="card-title justify-center mb-3">
 								画像アップロード
@@ -321,7 +325,7 @@ export default function RemoveBackgroundTool() {
 							)}
 
 							{/* クリアボタン */}
-							{uploadedImage && (
+							{/* {uploadedImage && (
 								<div className="mt-4">
 									<button
 										type="button"
@@ -332,7 +336,7 @@ export default function RemoveBackgroundTool() {
 										画像をクリア
 									</button>
 								</div>
-							)}
+							)} */}
 						</div>
 					</div>
 				</div>
@@ -378,10 +382,21 @@ export default function RemoveBackgroundTool() {
 							{processedImage && (
 								<button
 									type="button"
-									className="btn btn-primary"
+									className="btn btn-primary w-full mb-4"
 									onClick={downloadImage}
 								>
 									透過画像をダウンロード
+								</button>
+							)}
+							{/* クリアボタン */}
+							{uploadedImage && (
+								<button
+									type="button"
+									className="btn btn-outline w-full"
+									onClick={handleClearUploadedImage}
+									disabled={isProcessing}
+								>
+									画像をクリア
 								</button>
 							)}
 						</div>
