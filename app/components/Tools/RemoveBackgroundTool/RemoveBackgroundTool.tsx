@@ -203,11 +203,13 @@ export default function RemoveBackgroundTool() {
 				</div>
 			</div>
 
-			<div className="flex flex-col-reverse sm:grid sm:grid-cols-2 gap-10 mt-6">
+			<div className="flex flex-col sm:grid sm:grid-cols-2 gap-10 mt-6">
 				<div>
 					<div className="card card-border">
 						<div className="card-body">
-							<h2 className="card-title justify-center">画像アップロード</h2>
+							<h2 className="card-title justify-center mb-3">
+								画像アップロード
+							</h2>
 
 							{/* 非表示のファイル入力 */}
 							<input
@@ -223,7 +225,7 @@ export default function RemoveBackgroundTool() {
 							{/* ドラッグ&ドロップエリア */}
 							{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 							<div
-								className={`border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center min-h-[200px] mt-4 cursor-pointer transition-colors ${
+								className={`border-2 border-dashed h-64 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors ${
 									isDragging
 										? "border-primary bg-primary/10"
 										: "border-base-content/30 hover:border-primary/50"
@@ -300,11 +302,11 @@ export default function RemoveBackgroundTool() {
 				<div>
 					<div className="card card-border">
 						<div className="card-body items-center text-center">
-							<h2 className="card-title" id="image-preview">
+							<h2 className="card-title mb-3" id="image-preview">
 								プレビュー
 							</h2>
 
-							<div className="relative w-full max-w-md h-64 border border-base-content/20 flex items-center justify-center mb-4">
+							<div className="relative w-full h-64 border border-base-content/20 flex items-center justify-center mb-4">
 								{isUploading ? (
 									<FaSpinner className="animate-spin" size={32} />
 								) : isProcessing ? (
