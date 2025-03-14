@@ -43,15 +43,21 @@ export default function QrGeneratorTool() {
 	const qrRef = useRef<SVGSVGElement>(null);
 
 	// カラーピッカーが変更されたときにhexInputも更新
-	const handleFrontColorChange = (newColor: IColor) => {
-		setFrontColor(newColor);
-		setFrontHexInput(newColor.hex);
-	};
+	const handleFrontColorChange = useCallback(
+		(newColor: IColor) => {
+			setFrontColor(newColor);
+			setFrontHexInput(newColor.hex);
+		},
+		[setFrontColor],
+	);
 
-	const handleBackColorChange = (newColor: IColor) => {
-		setBackColor(newColor);
-		setBackHexInput(newColor.hex);
-	};
+	const handleBackColorChange = useCallback(
+		(newColor: IColor) => {
+			setBackColor(newColor);
+			setBackHexInput(newColor.hex);
+		},
+		[setBackColor],
+	);
 
 	// ファイルアップロードの処理
 	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,6 +154,36 @@ export default function QrGeneratorTool() {
 		setUploadedImage(null);
 	}, []);
 
+	// 前景色HEX入力ハンドラ
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	const handleFrontHexInputChange = useCallback((newValue: string) => {
+		setFrontHexInput(newValue);
+
+		// 有効な16進数カラーコードの場合のみfrontColorを更新
+		if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
+			// 関数形式で更新することで安全に現在の値を参照
+			setFrontColor((prevColor) => ({
+				hex: newValue,
+				rgb: prevColor.rgb,
+				hsv: prevColor.hsv,
+			}));
+		}
+	}, []); // 依存配列を空に
+
+	// 背景色HEX入力ハンドラ
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	const handleBackHexInputChange = useCallback((newValue: string) => {
+		setBackHexInput(newValue);
+
+		if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
+			setBackColor((prevColor) => ({
+				hex: newValue,
+				rgb: prevColor.rgb,
+				hsv: prevColor.hsv,
+			}));
+		}
+	}, []);
+
 	return (
 		<div>
 			<div className="card">
@@ -209,17 +245,7 @@ export default function QrGeneratorTool() {
 									anchorName="[anchor-name:--anchor-1]"
 									className="dropdown [position-anchor:--anchor-1]"
 									onColorChange={handleFrontColorChange}
-									onHexInputChange={(newValue) => {
-										setFrontHexInput(newValue);
-										// 有効な16進数カラーコードの場合のみfrontColorを更新
-										if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
-											setFrontColor({
-												hex: newValue,
-												rgb: frontColor.rgb,
-												hsv: frontColor.hsv,
-											});
-										}
-									}}
+									onHexInputChange={handleFrontHexInputChange}
 								/>
 								<QrColorPicker
 									id="back-color-picker"
@@ -230,17 +256,7 @@ export default function QrGeneratorTool() {
 									anchorName="[anchor-name:--anchor-2]"
 									className="dropdown dropdown-center [position-anchor:--anchor-2]"
 									onColorChange={handleBackColorChange}
-									onHexInputChange={(newValue) => {
-										setBackHexInput(newValue);
-										// 有効な16進数カラーコードの場合のみbackColorを更新
-										if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
-											setBackColor({
-												hex: newValue,
-												rgb: backColor.rgb,
-												hsv: backColor.hsv,
-											});
-										}
-									}}
+									onHexInputChange={handleBackHexInputChange}
 								/>
 							</div>
 							<label htmlFor="error-correction-level">エラー訂正レベル</label>
