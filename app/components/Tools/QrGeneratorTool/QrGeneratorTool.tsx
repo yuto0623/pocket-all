@@ -90,6 +90,64 @@ export default function QrGeneratorTool() {
 		downloadQRCode(text, qrRef);
 	}, [downloadQRCode, text]);
 
+	// テキスト入力ハンドラ
+	const handleTextChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setText(e.target.value);
+		},
+		[],
+	);
+
+	// サイズ調整ハンドラ
+	const handleSizeChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setSize(Number.parseInt(e.target.value, 10));
+		},
+		[],
+	);
+
+	// 余白調整ハンドラ
+	const handleMarginChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setMargin(Number.parseInt(e.target.value, 10));
+		},
+		[],
+	);
+
+	// エラー訂正レベル変更ハンドラ
+	const handleErrorCorrectionChange = useCallback(
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			setErrorCorrectionLevel(e.target.value as QRCodeSVGProps["level"]);
+		},
+		[],
+	);
+
+	// 画像追加トグルハンドラ
+	const handleAddImageToggle = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setAddImage(e.target.checked);
+		},
+		[],
+	);
+
+	// 追加画像サイズ変更ハンドラ
+	const handleAddImageSizeChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			setAddImageSize(Number.parseInt(e.target.value, 10));
+		},
+		[],
+	);
+
+	// アップロードエラークリアハンドラ
+	const handleClearUploadError = useCallback(() => {
+		setUploadError(null);
+	}, []);
+
+	// アップロード画像クリアハンドラ
+	const handleClearUploadedImage = useCallback(() => {
+		setUploadedImage(null);
+	}, []);
+
 	return (
 		<div>
 			<div className="card">
@@ -107,7 +165,7 @@ export default function QrGeneratorTool() {
 								type="text"
 								required
 								placeholder="https://"
-								onChange={(e) => setText(e.target.value)}
+								onChange={handleTextChange}
 							/>
 						</label>
 						<p className="fieldset-label">URLかテキストを入力</p>
@@ -126,7 +184,7 @@ export default function QrGeneratorTool() {
 								max={512}
 								className="range w-full"
 								value={size}
-								onChange={(e) => setSize(Number.parseInt(e.target.value, 10))}
+								onChange={handleSizeChange}
 								title="QRコードのサイズ調整"
 								aria-label="QRコードのサイズ調整"
 							/>
@@ -137,7 +195,7 @@ export default function QrGeneratorTool() {
 								max={50}
 								className="range w-full"
 								value={margin}
-								onChange={(e) => setMargin(Number.parseInt(e.target.value, 10))}
+								onChange={handleMarginChange}
 								title="QRコードの余白調整"
 								aria-label="QRコードの余白調整"
 							/>
@@ -189,11 +247,7 @@ export default function QrGeneratorTool() {
 							<select
 								className="select w-full"
 								value={errorCorrectionLevel}
-								onChange={(e) =>
-									setErrorCorrectionLevel(
-										e.target.value as QRCodeSVGProps["level"],
-									)
-								}
+								onChange={handleErrorCorrectionChange}
 								id="error-correction-level"
 							>
 								<option value="L">L:低 (約7％のエラー訂正)</option>
@@ -212,7 +266,7 @@ export default function QrGeneratorTool() {
 									<input
 										type="checkbox"
 										className="toggle"
-										onChange={(e) => setAddImage(e.target.checked)}
+										onChange={handleAddImageToggle}
 										id="add-image-checkbox"
 									/>
 									<label htmlFor="add-image-checkbox">
@@ -228,9 +282,7 @@ export default function QrGeneratorTool() {
 											max={150}
 											className="range w-full mb-5"
 											value={addImageSize}
-											onChange={(e) =>
-												setAddImageSize(Number.parseInt(e.target.value, 10))
-											}
+											onChange={handleAddImageSizeChange}
 											title="QRコードに追加する画像のサイズ調整"
 											aria-label="QRコードに追加する画像のサイズ調整"
 										/>
@@ -256,7 +308,7 @@ export default function QrGeneratorTool() {
 														<span>{uploadError}</span>
 														<FaTimes
 															size={20}
-															onClick={() => setUploadError(null)}
+															onClick={handleClearUploadError}
 														/>
 													</div>
 												</div>
@@ -273,7 +325,7 @@ export default function QrGeneratorTool() {
 												<button
 													className="btn"
 													type="reset"
-													onClick={() => setUploadedImage(null)}
+													onClick={handleClearUploadedImage}
 												>
 													クリア
 												</button>
