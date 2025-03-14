@@ -411,11 +411,9 @@ export default function ImageCompressorTool() {
 								<div className="mt-6">
 									<h3 className="font-semibold mb-2">圧縮設定</h3>
 
-									<div className="form-control">
-										<label className="label" htmlFor="quality-range">
-											<span className="label-text">
-												画質: {pendingQuality}%
-											</span>
+									<div className="flex flex-col">
+										<label className=" mb-2" htmlFor="quality-range">
+											<span className="">画質: {pendingQuality}%</span>
 										</label>
 										<input
 											type="range"
@@ -425,24 +423,24 @@ export default function ImageCompressorTool() {
 											onChange={handleQualityChangeWithDebounce}
 											onMouseUp={handleQualityChangeComplete}
 											onTouchEnd={handleQualityChangeComplete}
-											className="range"
+											className="range w-full mb-1"
 											disabled={isProcessing}
 											id="quality-range"
 										/>
-										<div className="flex justify-between text-xs px-1">
+										<div className="flex justify-between text-xs px-1 text-base-content/60">
 											<span>低画質・小サイズ</span>
 											<span>高画質・大サイズ</span>
 										</div>
 									</div>
 
 									<div className="form-control mt-4">
-										<label className="label" htmlFor="max-width-select">
+										<label className="" htmlFor="max-width-select">
 											<span className="label-text">最大幅: {maxWidth}px</span>
 										</label>
 										<select
 											value={maxWidth}
 											onChange={handleMaxWidthChange}
-											className="select select-bordered w-full"
+											className="select select-bordered w-full mt-2"
 											disabled={isProcessing}
 											id="max-width-select"
 										>
@@ -456,13 +454,13 @@ export default function ImageCompressorTool() {
 									</div>
 
 									<div className="form-control mt-4">
-										<label className="label" htmlFor="output-format-select">
+										<label className="" htmlFor="output-format-select">
 											<span className="label-text">出力形式</span>
 										</label>
 										<select
 											value={outputFormat}
 											onChange={handleFormatChange}
-											className="select select-bordered w-full"
+											className="select select-bordered w-full mt-2"
 											disabled={isProcessing}
 											id="output-format-select"
 										>
