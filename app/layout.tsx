@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import { Geist, Geist_Mono, M_PLUS_Rounded_1c } from "next/font/google";
+import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
+import { GoogleTagManager } from "@next/third-parties/google";
 import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
 
 const mPlusRounded1c = M_PLUS_Rounded_1c({
 	weight: ["400", "700"],
@@ -39,6 +39,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ja" suppressHydrationWarning>
+			<GoogleTagManager gtmId="GTM-WGF6R8WB" />
 			<body className={`${mPlusRounded1c.variable} antialiased`}>
 				<ThemeProvider>
 					{children}
