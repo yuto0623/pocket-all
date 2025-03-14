@@ -1,6 +1,7 @@
 "use client";
 import { removeBackground } from "@imgly/background-removal";
 import { default as NextImage } from "next/image";
+import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import { FaImage, FaSpinner, FaTimes, FaUpload } from "react-icons/fa";
 
@@ -360,7 +361,11 @@ export default function RemoveBackgroundTool() {
 											src={processedImage || uploadedImage}
 											alt="画像プレビュー"
 											fill
-											className="object-contain"
+											className="object-contain bg-white
+											[background-image:linear-gradient(45deg,#ddd_25%,transparent_25%,transparent_75%,#ddd_75%,#ddd),linear-gradient(45deg,#ddd_25%,transparent_25%,transparent_75%,#ddd_75%,#ddd)]
+											[background-size:18px_18px]
+											[background-position:0_0,9px_9px]
+											overflow-hidden"
 										/>
 									</div>
 								) : (
@@ -383,6 +388,32 @@ export default function RemoveBackgroundTool() {
 					</div>
 				</div>
 			</div>
+			<h3 className="text-center text-xl font-bold mt-10">サンプル</h3>
+			<figure
+				className="diff aspect-16/9 max-w-[600px] mx-auto mt-8 bg-white
+											[background-image:linear-gradient(45deg,#ddd_25%,transparent_25%,transparent_75%,#ddd_75%,#ddd),linear-gradient(45deg,#ddd_25%,transparent_25%,transparent_75%,#ddd_75%,#ddd)]
+											[background-size:18px_18px]
+											[background-position:0_0,9px_9px]
+											overflow-hidden"
+			>
+				<div className="diff-item-1" role="img">
+					<Image
+						src="/img/RemoveBackgroundTool/sample.jpg"
+						alt="example"
+						width={1920}
+						height={1280}
+					/>
+				</div>
+				<div className="diff-item-2" role="img">
+					<Image
+						src="/img/RemoveBackgroundTool/transparent-sample.png"
+						alt="example"
+						width={1920}
+						height={1280}
+					/>
+				</div>
+				<div className="diff-resizer" />
+			</figure>
 		</div>
 	);
 }
