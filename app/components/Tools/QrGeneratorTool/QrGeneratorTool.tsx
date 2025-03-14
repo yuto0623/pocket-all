@@ -125,7 +125,7 @@ export default function QrGeneratorTool() {
 								min={128}
 								max={512}
 								className="range w-full"
-								defaultValue={size}
+								value={size}
 								onChange={(e) => setSize(Number.parseInt(e.target.value, 10))}
 								title="QRコードのサイズ調整"
 								aria-label="QRコードのサイズ調整"
@@ -136,7 +136,7 @@ export default function QrGeneratorTool() {
 								min={0}
 								max={50}
 								className="range w-full"
-								defaultValue={margin}
+								value={margin}
 								onChange={(e) => setMargin(Number.parseInt(e.target.value, 10))}
 								title="QRコードの余白調整"
 								aria-label="QRコードの余白調整"
@@ -227,7 +227,7 @@ export default function QrGeneratorTool() {
 											min={20}
 											max={150}
 											className="range w-full mb-5"
-											defaultValue={addImageSize}
+											value={addImageSize}
 											onChange={(e) =>
 												setAddImageSize(Number.parseInt(e.target.value, 10))
 											}
