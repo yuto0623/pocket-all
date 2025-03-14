@@ -1,4 +1,5 @@
 "use client";
+import imageCompression from "browser-image-compression";
 import { default as NextImage } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FaImage, FaSpinner, FaTimes, FaUpload } from "react-icons/fa";
@@ -18,11 +19,17 @@ export default function ImageCompressorTool() {
 	const [compressedSize, setCompressedSize] = useState<number>(0); // バイト単位
 	const [compressionRate, setCompressionRate] = useState<number>(0); // 圧縮率
 
-	// 圧縮設定
+	// 圧縮設定（実際の値）
 	const [quality, setQuality] = useState<number>(80); // 0-100
 	const [maxWidth, setMaxWidth] = useState<number>(1920); // 最大幅
-	const [keepAspectRatio, setKeepAspectRatio] = useState<boolean>(true);
 	const [outputFormat, setOutputFormat] = useState<"jpeg" | "png" | "webp">(
+		"jpeg",
+	);
+
+	// 一時的な値（UI表示用）
+	const [pendingQuality, setPendingQuality] = useState<number>(80);
+	const [pendingMaxWidth, setPendingMaxWidth] = useState<number>(1920);
+	const [pendingFormat, setPendingFormat] = useState<"jpeg" | "png" | "webp">(
 		"jpeg",
 	);
 
@@ -30,6 +37,7 @@ export default function ImageCompressorTool() {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const blobCache = useRef<Blob | null>(null);
+	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	// 画像の読み込み処理
 	const loadImage = useCallback((file: File) => {
@@ -69,94 +77,104 @@ export default function ImageCompressorTool() {
 
 	// 画像圧縮処理
 	const compressImage = useCallback(async () => {
-		if (!uploadedImage || !canvasRef.current) return;
+		if (!uploadedImage || !originalFile) return;
 
 		setIsProcessing(true);
 
 		try {
-			const img = new Image();
-
-			img.onload = () => {
-				const canvas = canvasRef.current;
-				if (!canvas) {
-					setIsProcessing(false);
-					return;
-				}
-				const ctx = canvas.getContext("2d");
-				if (!ctx) {
-					setIsProcessing(false);
-					return;
-				}
-
-				// 画像サイズの計算
-				let targetWidth = img.width;
-				let targetHeight = img.height;
-
-				// 最大幅を超える場合はリサイズ
-				if (img.width > maxWidth) {
-					targetWidth = maxWidth;
-					if (keepAspectRatio) {
-						targetHeight = Math.round(img.height * (maxWidth / img.width));
-					}
-				}
-
-				// キャンバスのサイズを設定
-				canvas.width = targetWidth;
-				canvas.height = targetHeight;
-
-				// 画像をキャンバスに描画
-				ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-
-				// 圧縮した画像データを取得
-				const mimeType = `image/${outputFormat}`;
-				const compressedDataUrl = canvas.toDataURL(mimeType, quality / 100);
-				setCompressedImage(compressedDataUrl);
-
-				// Blobの作成とサイズ計算
-				canvas.toBlob(
-					(blob) => {
-						if (blob) {
-							blobCache.current = blob;
-							setCompressedSize(blob.size);
-							setCompressionRate(
-								Math.round((1 - blob.size / originalSize) * 100),
-							);
-						}
-						setIsProcessing(false);
-					},
-					mimeType,
-					quality / 100,
-				);
+			const options = {
+				maxSizeMB: 10, // 最大サイズ (MB)
+				maxWidthOrHeight: maxWidth, // 最大幅
+				initialQuality: quality / 100, // 品質
+				useWebWorker: true, // WebWorkerを使用
+				fileType: `image/${outputFormat}`, // 出力フォーマット
+				alwaysKeepResolution: true, // 解像度を維持するか
 			};
 
-			img.onerror = () => {
-				setUploadError("画像の処理中にエラーが発生しました");
-				setIsProcessing(false);
-			};
+			// 圧縮を実行
+			const compressedFile = await imageCompression(originalFile, options);
 
-			img.src = uploadedImage;
+			// 圧縮されたファイルをBlob形式で保存
+			blobCache.current = compressedFile;
+
+			// 圧縮サイズと圧縮率を計算
+			setCompressedSize(compressedFile.size);
+			setCompressionRate(
+				Math.round((1 - compressedFile.size / originalSize) * 100),
+			);
+
+			// 表示用のURLを生成
+			const compressedUrl =
+				await imageCompression.getDataUrlFromFile(compressedFile);
+			setCompressedImage(compressedUrl);
 		} catch (error) {
 			console.error("圧縮処理に失敗しました:", error);
 			setUploadError(
 				`圧縮処理に失敗しました: ${error instanceof Error ? error.message : "不明なエラー"}`,
 			);
+		} finally {
 			setIsProcessing(false);
 		}
 	}, [
 		uploadedImage,
 		quality,
 		maxWidth,
-		keepAspectRatio,
 		outputFormat,
 		originalSize,
+		originalFile,
 	]);
 
-	// 品質が変更されるたびに圧縮処理を実行
+	// 設定が変更されたら圧縮処理を実行
 	useEffect(() => {
 		if (uploadedImage && !isUploading) {
 			compressImage();
 		}
 	}, [compressImage, uploadedImage, isUploading]);
+
+	// UI設定変更ハンドラー
+	const handleQualityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPendingQuality(Number.parseInt(e.target.value));
+	};
+
+	const handleQualityChangeComplete = () => {
+		setQuality(pendingQuality);
+	};
+
+	const handleMaxWidthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setPendingMaxWidth(Number.parseInt(e.target.value));
+		setMaxWidth(Number.parseInt(e.target.value));
+	};
+
+	const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setPendingFormat(e.target.value as "jpeg" | "png" | "webp");
+		setOutputFormat(e.target.value as "jpeg" | "png" | "webp");
+	};
+
+	// スムーズな変更のための遅延処理
+	const handleQualityChangeWithDebounce = (
+		e: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		setPendingQuality(Number.parseInt(e.target.value));
+
+		// 前回のタイマーをクリア
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+
+		// 新しいタイマーをセット（500ms後に実行）
+		timeoutRef.current = setTimeout(() => {
+			setQuality(Number.parseInt(e.target.value));
+		}, 500);
+	};
+
+	// コンポーネントのアンマウント時にタイマーをクリア
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		};
+	}, []);
 
 	// ファイルアップロードの処理
 	const handleFileUpload = useCallback(
@@ -395,16 +413,18 @@ export default function ImageCompressorTool() {
 
 									<div className="form-control">
 										<label className="label" htmlFor="quality-range">
-											<span className="label-text">画質: {quality}%</span>
+											<span className="label-text">
+												画質: {pendingQuality}%
+											</span>
 										</label>
 										<input
 											type="range"
 											min={1}
 											max={100}
-											value={quality}
-											onChange={(e) =>
-												setQuality(Number.parseInt(e.target.value))
-											}
+											value={pendingQuality}
+											onChange={handleQualityChangeWithDebounce}
+											onMouseUp={handleQualityChangeComplete}
+											onTouchEnd={handleQualityChangeComplete}
 											className="range"
 											disabled={isProcessing}
 											id="quality-range"
@@ -421,9 +441,7 @@ export default function ImageCompressorTool() {
 										</label>
 										<select
 											value={maxWidth}
-											onChange={(e) =>
-												setMaxWidth(Number.parseInt(e.target.value))
-											}
+											onChange={handleMaxWidthChange}
 											className="select select-bordered w-full"
 											disabled={isProcessing}
 											id="max-width-select"
@@ -438,29 +456,12 @@ export default function ImageCompressorTool() {
 									</div>
 
 									<div className="form-control mt-4">
-										<label className="label cursor-pointer">
-											<span className="label-text">アスペクト比を維持</span>
-											<input
-												type="checkbox"
-												checked={keepAspectRatio}
-												onChange={(e) => setKeepAspectRatio(e.target.checked)}
-												className="checkbox"
-												disabled={isProcessing}
-											/>
-										</label>
-									</div>
-
-									<div className="form-control mt-4">
 										<label className="label" htmlFor="output-format-select">
 											<span className="label-text">出力形式</span>
 										</label>
 										<select
 											value={outputFormat}
-											onChange={(e) =>
-												setOutputFormat(
-													e.target.value as "jpeg" | "png" | "webp",
-												)
-											}
+											onChange={handleFormatChange}
 											className="select select-bordered w-full"
 											disabled={isProcessing}
 											id="output-format-select"
