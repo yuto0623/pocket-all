@@ -7,6 +7,7 @@ import Header from "../components/Header/Header";
 // パスとタイトルのマッピング
 const ROUTE_TITLE_MAP: { [key: string]: string } = {
 	"/qr-generator-tool": "QRコード作成",
+	"/remove-background-tool": "画像透過",
 };
 
 export default function Layout({

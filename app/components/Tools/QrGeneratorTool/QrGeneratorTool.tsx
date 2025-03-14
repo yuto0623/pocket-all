@@ -150,7 +150,7 @@ export default function QrGeneratorTool() {
 			<div className="card">
 				<div className="card-body items-center text-center">
 					<h2 className="card-title">
-						データ入力
+						QRコード作成
 						{/* <div className="badge badge-neutral">Primary</div> */}
 					</h2>
 					<fieldset className="fieldset w-full max-w-3xl mx-auto">
