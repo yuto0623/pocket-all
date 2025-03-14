@@ -258,16 +258,15 @@ export default function RemoveBackgroundTool() {
 								{isProcessing && (
 									<div className="flex flex-col items-center w-full">
 										<FaSpinner className="animate-spin" size={24} />
-										<p className="mt-2">
-											{processingProgress.text}... {processingProgress.progress}
-											%
+										<p className="my-2">
+											{processingProgress.text} ...{" "}
+											{processingProgress.progress}%
 										</p>
-										<div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-											<div
-												className="bg-primary h-2.5 rounded-full"
-												style={{ width: `${processingProgress}%` }}
-											/>
-										</div>
+										<progress
+											className="progress w-full max-w-sm"
+											value={processingProgress.progress}
+											max="100"
+										/>
 									</div>
 								)}
 							</div>
