@@ -40,6 +40,21 @@ const Tools: Tool[] = [
 		description:
 			"完全無料で簡単に画像の背景を透過。画像をアップロードするだけで、透過処理を行います。ワンクリックで透過画像をダウンロード可能。",
 	},
+	{
+		title: "画像圧縮",
+		href: "/image-compressor-tool",
+		image: (
+			<Image
+				src="/img/ImageCompressorTool/thumbnail.jpg"
+				width={1408}
+				height={768}
+				alt=""
+			/>
+		),
+		indicator: "制作中",
+		description:
+			"画像をアップロードして簡単に圧縮。ファイルサイズを削減しながら、画質のバランスを調整できます。",
+	},
 ];
 
 export default function Home() {
