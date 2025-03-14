@@ -100,6 +100,7 @@ export default function RemoveBackgroundTool() {
 	// ファイルアップロードの処理
 	const handleFileUpload = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
+			handleClearUploadedImage;
 			const file = e.target.files?.[0];
 			if (!file) return;
 			loadAndProcessImage(file);
@@ -151,9 +152,46 @@ export default function RemoveBackgroundTool() {
 	}, []);
 
 	// 画像ダウンロード
-	const downloadImage = useCallback(() => {
+	const downloadImage = useCallback(async () => {
 		if (!processedImage) return;
+		// Web Share APIが使える場合（主にモバイル）
+		if (
+			navigator.share &&
+			/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+		) {
+			try {
+				// Blobからファイルを作成
+				const file = blobCache.current
+					? new File([blobCache.current], "transparent-image.png", {
+							type: "image/png",
+						})
+					: await (async () => {
+							// processedImageからBlobを取得
+							const response = await fetch(processedImage);
+							const blob = await response.blob();
+							return new File([blob], "transparent-image.png", {
+								type: "image/png",
+							});
+						})();
 
+				// ファイルがシェア可能かチェック
+				if (navigator.canShare({ files: [file] })) {
+					await navigator.share({
+						files: [file],
+						title: "透過画像",
+						text: "背景を透過した画像です",
+					});
+					return; // シェア成功したら終了
+				}
+			} catch (error) {
+				if (error instanceof Error && error.name !== "AbortError") {
+					console.error("シェアに失敗しました:", error);
+					// フォールバック：通常のダウンロードを試みる
+				}
+			}
+		}
+
+		// Web Share APIが使用できない場合や失敗した場合は従来のダウンロード方法
 		const link = document.createElement("a");
 		link.download = "transparent-image.png";
 
