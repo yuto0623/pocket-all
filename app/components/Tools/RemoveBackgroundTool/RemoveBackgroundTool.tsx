@@ -70,7 +70,7 @@ export default function RemoveBackgroundTool() {
 
 			// @imgly/background-removal を使用して背景を削除
 			const blob = await removeBackground(file, {
-				debug: true,
+				debug: false,
 				progress: (key, current, total) => {
 					// 進捗状況を更新 (0-100%)
 					setProcessingProgress({
