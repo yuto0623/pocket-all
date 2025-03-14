@@ -6,6 +6,7 @@ import { ColorPicker, type IColor, useColor } from "react-color-palette";
 import { FaLink, FaSpinner, FaTimes } from "react-icons/fa";
 import QrCodePreview from "./components/QrCodePreview";
 import QrColorPicker from "./components/QrColorPicker";
+import { useQrColors } from "./hooks/useQrColors";
 import { useQrDownload } from "./hooks/useQrDownload";
 
 export default function QrGeneratorTool() {
@@ -24,13 +25,17 @@ export default function QrGeneratorTool() {
 	const [errorCorrectionLevel, setErrorCorrectionLevel] =
 		useState<QRCodeSVGProps["level"]>("M");
 
-	const initialFrontColor = "#000000";
-	const initialBackColor = "#FFFFFF";
-
-	const [frontColor, setFrontColor] = useColor(initialFrontColor);
-	const [frontHexInput, setFrontHexInput] = useState(initialFrontColor);
-	const [backColor, setBackColor] = useColor(initialBackColor);
-	const [backHexInput, setBackHexInput] = useState(initialBackColor);
+	// カラー関連の状態と関数を取得
+	const {
+		frontColor,
+		backColor,
+		frontHexInput,
+		backHexInput,
+		handleFrontColorChange,
+		handleBackColorChange,
+		handleFrontHexInputChange,
+		handleBackHexInputChange,
+	} = useQrColors();
 
 	// ファイルアップロード関連の状態を追加
 	const [uploadedImage, setUploadedImage] = useState<string | null>(null);
@@ -41,23 +46,6 @@ export default function QrGeneratorTool() {
 	const { downloadQRCode } = useQrDownload(size, backColor.hex);
 
 	const qrRef = useRef<SVGSVGElement>(null);
-
-	// カラーピッカーが変更されたときにhexInputも更新
-	const handleFrontColorChange = useCallback(
-		(newColor: IColor) => {
-			setFrontColor(newColor);
-			setFrontHexInput(newColor.hex);
-		},
-		[setFrontColor],
-	);
-
-	const handleBackColorChange = useCallback(
-		(newColor: IColor) => {
-			setBackColor(newColor);
-			setBackHexInput(newColor.hex);
-		},
-		[setBackColor],
-	);
 
 	// ファイルアップロードの処理
 	const handleFileUpload = useCallback(
@@ -155,36 +143,6 @@ export default function QrGeneratorTool() {
 	// アップロード画像クリアハンドラ
 	const handleClearUploadedImage = useCallback(() => {
 		setUploadedImage(null);
-	}, []);
-
-	// 前景色HEX入力ハンドラ
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	const handleFrontHexInputChange = useCallback((newValue: string) => {
-		setFrontHexInput(newValue);
-
-		// 有効な16進数カラーコードの場合のみfrontColorを更新
-		if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
-			// 関数形式で更新することで安全に現在の値を参照
-			setFrontColor((prevColor) => ({
-				hex: newValue,
-				rgb: prevColor.rgb,
-				hsv: prevColor.hsv,
-			}));
-		}
-	}, []); // 依存配列を空に
-
-	// 背景色HEX入力ハンドラ
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	const handleBackHexInputChange = useCallback((newValue: string) => {
-		setBackHexInput(newValue);
-
-		if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newValue)) {
-			setBackColor((prevColor) => ({
-				hex: newValue,
-				rgb: prevColor.rgb,
-				hsv: prevColor.hsv,
-			}));
-		}
 	}, []);
 
 	return (
