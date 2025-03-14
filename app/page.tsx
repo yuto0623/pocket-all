@@ -51,7 +51,7 @@ const Tools: Tool[] = [
 				alt=""
 			/>
 		),
-		indicator: "制作中",
+		// indicator: "制作中",
 		description:
 			"画像をアップロードして簡単に圧縮。ファイルサイズを削減しながら、画質のバランスを調整できます。",
 	},
