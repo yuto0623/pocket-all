@@ -60,36 +60,39 @@ export default function QrGeneratorTool() {
 	);
 
 	// ファイルアップロードの処理
-	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (!file) return;
+	const handleFileUpload = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			const file = e.target.files?.[0];
+			if (!file) return;
 
-		setIsUploading(true);
-		setUploadError(null);
+			setIsUploading(true);
+			setUploadError(null);
 
-		// ファイル形式のチェック
-		if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
-			setUploadError("JPG、PNG、GIF形式のみアップロードできます");
-			setIsUploading(false);
-			return;
-		}
+			// ファイル形式のチェック
+			if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
+				setUploadError("JPG、PNG、GIF形式のみアップロードできます");
+				setIsUploading(false);
+				return;
+			}
 
-		// FileReaderでファイルを読み込む
-		const reader = new FileReader();
+			// FileReaderでファイルを読み込む
+			const reader = new FileReader();
 
-		reader.onload = (event) => {
-			setUploadedImage(event.target?.result as string);
-			setIsUploading(false);
-		};
+			reader.onload = (event) => {
+				setUploadedImage(event.target?.result as string);
+				setIsUploading(false);
+			};
 
-		reader.onerror = () => {
-			setUploadError("ファイルの読み込みに失敗しました");
-			setIsUploading(false);
-		};
+			reader.onerror = () => {
+				setUploadError("ファイルの読み込みに失敗しました");
+				setIsUploading(false);
+			};
 
-		// ファイルの読み込みを開始
-		reader.readAsDataURL(file);
-	};
+			// ファイルの読み込みを開始
+			reader.readAsDataURL(file);
+		},
+		[],
+	);
 
 	//ダウンロードハンドラー
 	const handleDownload = useCallback(() => {
