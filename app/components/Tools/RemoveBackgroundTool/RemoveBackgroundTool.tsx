@@ -238,11 +238,11 @@ export default function RemoveBackgroundTool() {
 							>
 								{!isUploading && !isProcessing && (
 									<>
-										<FaUpload size={36} className="mb-4 opacity-70" />
-										<p className="text-center mb-2">
+										<FaUpload size={36} className="mb-4 text-base-content/70" />
+										<p className="text-center mb-2 flex-grow-0">
 											画像をここにドラッグ&ドロップ
 										</p>
-										<p className="text-center text-sm opacity-70">
+										<p className="text-center text-sm text-base-content/60 flex-grow-0">
 											または、クリックしてファイルを選択
 										</p>
 									</>
