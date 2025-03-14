@@ -345,7 +345,65 @@ export default function ImageCompressorTool() {
 				<div>
 					<div className="card card-border">
 						<div className="card-body">
-							<h2 className="card-title justify-center mb-3">
+							<div
+								className={`text-center ${uploadedImage ? "block sm:hidden" : "hidden"}`}
+							>
+								<h2 className="card-title mb-3" id="image-preview">
+									プレビュー
+								</h2>
+
+								<div className="relative w-full h-64 border border-base-content/20 flex items-center justify-center mb-4">
+									{isUploading ? (
+										<FaSpinner className="animate-spin" size={32} />
+									) : isProcessing ? (
+										<div className="flex flex-col items-center">
+											<FaSpinner className="animate-spin" size={32} />
+											<p className="mt-4">圧縮処理中...</p>
+										</div>
+									) : uploadedImage ? (
+										<div className="relative w-full h-full">
+											<NextImage
+												src={compressedImage || uploadedImage}
+												alt="画像プレビュー"
+												fill
+												className="object-contain"
+											/>
+										</div>
+									) : (
+										<p className="text-base-content/60">
+											画像をアップロードしてください
+										</p>
+									)}
+								</div>
+
+								{/* 非表示のキャンバス要素 */}
+								<canvas ref={canvasRef} className="hidden" />
+
+								{compressedImage && (
+									<button
+										type="button"
+										className="btn btn-primary w-full mb-6"
+										onClick={downloadImage}
+									>
+										圧縮画像をダウンロード
+									</button>
+								)}
+								{/* クリアボタン */}
+								{uploadedImage && (
+									<button
+										type="button"
+										className="btn btn-outline w-full"
+										onClick={handleClearUploadedImage}
+										disabled={isProcessing}
+									>
+										画像をクリア
+									</button>
+								)}
+							</div>
+
+							<h2
+								className={`justify-center mb-3 ${uploadedImage ? "hidden sm:card-title" : ""}`}
+							>
 								画像アップロード
 							</h2>
 
@@ -363,11 +421,13 @@ export default function ImageCompressorTool() {
 							{/* ドラッグ&ドロップエリア */}
 							{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 							<div
-								className={`border-2 border-dashed h-64 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer transition-colors ${
-									isDragging
-										? "border-primary bg-primary/10"
-										: "border-base-content/30 hover:border-primary/50"
-								} ${isUploading || isProcessing ? "opacity-50 pointer-events-none" : ""}`}
+								className={`border-2 border-dashed h-64 rounded-lg p-6  flex-col items-center justify-center cursor-pointer transition-colors 
+                  ${uploadedImage ? "hidden sm:flex" : "flex"}
+                  ${
+										isDragging
+											? "border-primary bg-primary/10"
+											: "border-base-content/30 hover:border-primary/50"
+									} ${isUploading || isProcessing ? "opacity-50 pointer-events-none" : ""}`}
 								onDragEnter={handleDragEnter}
 								onDragOver={handleDragOver}
 								onDragLeave={handleDragLeave}
@@ -508,26 +568,12 @@ export default function ImageCompressorTool() {
 									</button>
 								</div>
 							)}
-
-							{/* クリアボタン */}
-							{uploadedImage && (
-								<div className="mt-4">
-									<button
-										type="button"
-										className="btn btn-outline w-full"
-										onClick={handleClearUploadedImage}
-										disabled={isProcessing}
-									>
-										画像をクリア
-									</button>
-								</div>
-							)}
 						</div>
 					</div>
 				</div>
 
 				<div>
-					<div className="card card-border">
+					<div className="card-border hidden sm:card">
 						<div className="card-body items-center text-center">
 							<h2 className="card-title mb-3" id="image-preview">
 								プレビュー
@@ -568,6 +614,18 @@ export default function ImageCompressorTool() {
 								>
 									圧縮画像をダウンロード
 								</button>
+							)}
+							{uploadedImage && (
+								<div className="mt-4">
+									<button
+										type="button"
+										className="btn btn-outline w-full"
+										onClick={handleClearUploadedImage}
+										disabled={isProcessing}
+									>
+										画像をクリア
+									</button>
+								</div>
 							)}
 						</div>
 					</div>
