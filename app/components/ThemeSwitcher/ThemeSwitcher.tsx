@@ -21,6 +21,7 @@ export default function ThemeSwitcher() {
 				type="button"
 				className="btn btn-circle"
 				aria-label="テーマ切り替え"
+				title={theme === "dark" ? "ライトモード" : "ダークモード"}
 			>
 				<LuSun size={20} />
 			</button>
@@ -33,6 +34,7 @@ export default function ThemeSwitcher() {
 			onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
 			className="btn btn-circle"
 			aria-label="テーマ切り替え"
+			title={theme === "dark" ? "ライトモード" : "ダークモード"}
 		>
 			{theme === "dark" ? <LuSun size={20} /> : <LuMoon size={20} />}
 		</button>

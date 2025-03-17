@@ -4,6 +4,7 @@ import { M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Footer from "./components/Footer/Footer";
+import SpeedDial from "./components/SpeedDial/SpeedDial";
 
 const mPlusRounded1c = M_PLUS_Rounded_1c({
 	weight: ["400", "700"],
@@ -43,6 +44,7 @@ export default function RootLayout({
 			<body className={`${mPlusRounded1c.variable} antialiased`}>
 				<ThemeProvider>
 					{children}
+					<SpeedDial />
 					<Footer />
 				</ThemeProvider>
 			</body>
