@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { IoMailOutline } from "react-icons/io5";
 
 export default function FeedbackModal() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -63,13 +64,46 @@ export default function FeedbackModal() {
 									✕
 								</button>
 							</form>
-							<div className="modal-action">
-								<form method="dialog">
+							<form>
+								<div className="flex flex-col gap-4">
+									<div>
+										<label htmlFor="email" className="label block text-sm">
+											メールアドレス
+										</label>
+										<label className="input validator w-full">
+											<IoMailOutline />
+											<input
+												id="email"
+												type="email"
+												placeholder="mail@site.com"
+												required
+											/>
+										</label>
+										<div className="validator-hint hidden">
+											メールアドレスを入力してください
+										</div>
+									</div>
+									<div>
+										<label htmlFor="message" className="label block text-sm">
+											ご質問やご要望
+										</label>
+										<textarea
+											id="message"
+											className="textarea w-full validator"
+											placeholder="Bio"
+											required
+										/>
+										<div className="validator-hint hidden">
+											ご質問やご要望を入力してください
+										</div>
+									</div>
+								</div>
+								<div className="modal-action justify-center">
 									<button type="submit" className="btn">
-										閉じる
+										送信
 									</button>
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
 						<form method="dialog" className="modal-backdrop">
 							<button type="submit">閉じる</button>
