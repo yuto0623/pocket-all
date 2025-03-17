@@ -56,6 +56,21 @@ const Tools: Tool[] = [
 		description:
 			"画像をアップロードして簡単に圧縮。ファイルサイズを削減しながら、画質のバランスを調整できます。",
 	},
+	{
+		title: "単位変換",
+		href: "/unit-converter-tool",
+		image: (
+			<Image
+				src="/img/UnitConverterTool/thumbnail.jpg"
+				width={1408}
+				height={768}
+				alt=""
+			/>
+		),
+		// indicator: "制作中",
+		description:
+			"長さ、重さ、温度など様々な単位をワンクリックで変換。簡単・正確な単位変換ツール。",
+	},
 ];
 
 export default function Home() {
