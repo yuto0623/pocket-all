@@ -16,7 +16,6 @@ export default function SpeedDial() {
 			</button>
 			<ul className="dropdown-content flex flex-col mb-4 gap-2">
 				<li>
-					{/* Open the modal using document.getElementById('ID').showModal() method */}
 					<button
 						type="button"
 						className="btn btn-circle btn-lg"
