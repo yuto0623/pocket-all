@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  exclude: rootscrollgutter;
+}
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
