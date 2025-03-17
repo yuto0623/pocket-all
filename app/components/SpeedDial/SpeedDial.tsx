@@ -20,24 +20,15 @@ export default function SpeedDial() {
 					<button
 						type="button"
 						className="btn btn-circle btn-lg"
-						onClick={() =>
+						onClick={(e) => {
+							e.stopPropagation(); // イベントの伝播を止める
 							(
-								document.getElementById("my_modal_2") as HTMLDialogElement
-							)?.showModal()
-						}
+								document.getElementById("contact_modal") as HTMLDialogElement
+							)?.showModal();
+						}}
 					>
 						<IoChatbubbleEllipsesOutline size={20} />
-						open modal
 					</button>
-					<dialog id="my_modal_2" className="modal">
-						<div className="modal-box">
-							<h3 className="font-bold text-lg">Hello!</h3>
-							<p className="py-4">Press ESC key or click outside to close</p>
-						</div>
-						<form method="dialog" className="modal-backdrop">
-							<button type="button">close</button>
-						</form>
-					</dialog>
 				</li>
 				<li>
 					<div className="btn btn-circle btn-lg">
@@ -45,6 +36,16 @@ export default function SpeedDial() {
 					</div>
 				</li>
 			</ul>
+			{/* Modal */}
+			<dialog id="contact_modal" className="modal z-index-50">
+				<div className="modal-box">
+					<h3 className="font-bold text-lg">Hello!</h3>
+					<p className="py-4">Press ESC key or click outside to close</p>
+				</div>
+				<form method="dialog" className="modal-backdrop">
+					<button type="submit">close</button>
+				</form>
+			</dialog>
 		</div>
 	);
 }
