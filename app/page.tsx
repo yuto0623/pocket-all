@@ -20,6 +20,7 @@ const Tools: Tool[] = [
 				width={1408}
 				height={768}
 				alt=""
+				priority
 			/>
 		),
 		description:
