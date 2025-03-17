@@ -2,7 +2,7 @@ import UnitConverterTool from "@/app/components/Tools/UnitConverterTool/UnitConv
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "単位変換ツール",
+	title: "単位変換",
 	description:
 		"長さ、重さ、温度など様々な単位をワンクリックで変換。簡単・正確な単位変換ツール。",
 	openGraph: {

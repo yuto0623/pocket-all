@@ -50,7 +50,7 @@ export default function UnitConverterTool() {
 		<div>
 			<div className="card">
 				<div className="card-body items-center text-center">
-					<h2 className="card-title">単位変換ツール</h2>
+					<h2 className="card-title">単位変換</h2>
 					<p className="opacity-70 max-w-2xl">
 						長さ、重さ、温度など様々な単位をワンクリックで変換。簡単・正確な単位変換ツール。
 					</p>
