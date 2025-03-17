@@ -54,7 +54,7 @@ export default function FeedbackModal() {
 						<div className="modal-box">
 							<h3 className="font-bold text-lg">お問い合わせ</h3>
 							<p className="py-4">
-								ご質問やご要望がございましたら気軽にこちらからお送りください！
+								ご質問やご要望がございましたら気軽にこちらからお送りください！（機能実装中。まだ送信できません）
 							</p>
 							<form method="dialog">
 								<button
@@ -68,14 +68,14 @@ export default function FeedbackModal() {
 								<div className="flex flex-col gap-4">
 									<div>
 										<label htmlFor="email" className="label block text-sm">
-											メールアドレス
+											返信用メールアドレス
 										</label>
 										<label className="input validator w-full">
 											<IoMailOutline />
 											<input
 												id="email"
 												type="email"
-												placeholder="mail@site.com"
+												placeholder="yuto.ryr0623@gmail.com"
 												required
 											/>
 										</label>
@@ -90,7 +90,7 @@ export default function FeedbackModal() {
 										<textarea
 											id="message"
 											className="textarea w-full validator"
-											placeholder="Bio"
+											placeholder="○○の機能が欲しい / △△のバグを見つけた"
 											required
 										/>
 										<div className="validator-hint hidden">
