@@ -6,6 +6,12 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 export default function FeedbackModal() {
 	const [isOpen, setIsOpen] = useState(false);
 	const modalRef = useRef<HTMLDialogElement | null>(null);
+	const [isMounted, setIsMounted] = useState(false);
+
+	// クライアントサイドでのマウント検出
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	// モーダル表示制御
 	useEffect(() => {
@@ -41,14 +47,22 @@ export default function FeedbackModal() {
 				<IoChatbubbleEllipsesOutline size={20} />
 			</button>
 
-			{typeof window === "object" &&
+			{isMounted &&
 				createPortal(
 					<dialog ref={modalRef} id="contact_modal" className="modal z-50">
 						<div className="modal-box">
 							<h3 className="font-bold text-lg">お問い合わせ</h3>
 							<p className="py-4">
-								ご質問やご要望がございましたら、こちらからお送りください。
+								ご質問やご要望がございましたら気軽にこちらからお送りください！
 							</p>
+							<form method="dialog">
+								<button
+									type="submit"
+									className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+								>
+									✕
+								</button>
+							</form>
 							<div className="modal-action">
 								<form method="dialog">
 									<button type="submit" className="btn">
