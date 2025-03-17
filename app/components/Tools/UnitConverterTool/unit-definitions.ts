@@ -65,6 +65,12 @@ export const categories: UnitCategory[] = [
 				toBase: (v) => v * 1609.344,
 				fromBase: (v) => v / 1609.344,
 			},
+			{
+				id: "nauticalMile",
+				name: "海里 (nmi)",
+				toBase: (v) => v * 1852,
+				fromBase: (v) => v / 1852,
+			},
 		],
 		commonConversions: [
 			["centimeter", "inch"],
