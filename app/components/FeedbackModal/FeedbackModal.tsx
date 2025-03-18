@@ -30,7 +30,14 @@ export default function FeedbackModal() {
 			modalRef.current.showModal();
 
 			// モーダルが閉じられたときの処理
-			const handleClose = () => setIsOpen(false);
+			const handleClose = () => {
+				setIsOpen(false);
+				// submitStatusをクリア
+				setSubmitStatus({});
+				// オプション: フォームもリセット
+				setEmail("");
+				setMessage("");
+			};
 			modalRef.current.addEventListener("close", handleClose);
 
 			return () => {
@@ -126,55 +133,56 @@ export default function FeedbackModal() {
 									{submitStatus.message}
 								</div>
 							)}
-
-							<form onSubmit={handleSubmit}>
-								<div className="flex flex-col gap-4">
-									<div>
-										<label htmlFor="email" className="label block text-sm">
-											返信用メールアドレス
-										</label>
-										<label className="input validator w-full">
-											<IoMailOutline />
-											<input
-												id="email"
-												type="email"
-												placeholder="メールアドレス"
+							{!submitStatus.success && (
+								<form onSubmit={handleSubmit}>
+									<div className="flex flex-col gap-4">
+										<div>
+											<label htmlFor="email" className="label block text-sm">
+												返信用メールアドレス
+											</label>
+											<label className="input validator w-full">
+												<IoMailOutline />
+												<input
+													id="email"
+													type="email"
+													placeholder="メールアドレス"
+													required
+													value={email}
+													onChange={(e) => setEmail(e.target.value)}
+												/>
+											</label>
+											<div className="validator-hint hidden">
+												メールアドレスを入力してください
+											</div>
+										</div>
+										<div>
+											<label htmlFor="message" className="label block text-sm">
+												ご質問やご要望
+											</label>
+											<textarea
+												id="message"
+												className="textarea w-full validator"
+												placeholder="○○の機能が欲しい / △△のバグを見つけた"
 												required
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
+												value={message}
+												onChange={(e) => setMessage(e.target.value)}
 											/>
-										</label>
-										<div className="validator-hint hidden">
-											メールアドレスを入力してください
+											<div className="validator-hint hidden">
+												ご質問やご要望を入力してください
+											</div>
 										</div>
 									</div>
-									<div>
-										<label htmlFor="message" className="label block text-sm">
-											ご質問やご要望
-										</label>
-										<textarea
-											id="message"
-											className="textarea w-full validator"
-											placeholder="○○の機能が欲しい / △△のバグを見つけた"
-											required
-											value={message}
-											onChange={(e) => setMessage(e.target.value)}
-										/>
-										<div className="validator-hint hidden">
-											ご質問やご要望を入力してください
-										</div>
+									<div className="modal-action justify-center">
+										<button
+											type="submit"
+											className="btn btn-primary"
+											disabled={isSubmitting}
+										>
+											{isSubmitting ? "送信中..." : "送信"}
+										</button>
 									</div>
-								</div>
-								<div className="modal-action justify-center">
-									<button
-										type="submit"
-										className="btn btn-primary"
-										disabled={isSubmitting}
-									>
-										{isSubmitting ? "送信中..." : "送信"}
-									</button>
-								</div>
-							</form>
+								</form>
+							)}
 						</div>
 						<form method="dialog" className="modal-backdrop">
 							<button type="submit">閉じる</button>
