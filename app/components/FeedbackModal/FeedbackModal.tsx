@@ -1,11 +1,19 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { IoMailOutline } from "react-icons/io5";
 
 export default function FeedbackModal() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitStatus, setSubmitStatus] = useState<{
+		success?: boolean;
+		message?: string;
+	}>({});
+
 	const modalRef = useRef<HTMLDialogElement | null>(null);
 	const [isMounted, setIsMounted] = useState(false);
 
@@ -38,6 +46,52 @@ export default function FeedbackModal() {
 		setIsOpen(true);
 	};
 
+	// フォーム送信処理
+	const handleSubmit = async (e: FormEvent) => {
+		e.preventDefault();
+
+		if (!email || !message) {
+			return setSubmitStatus({
+				success: false,
+				message: "すべてのフィールドを入力してください。",
+			});
+		}
+
+		setIsSubmitting(true);
+		setSubmitStatus({});
+
+		try {
+			const response = await fetch("/api/send-feedback", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email, message }),
+			});
+
+			const data = await response.json();
+
+			if (response.ok) {
+				setSubmitStatus({
+					success: true,
+					message: "ご意見ありがとうございました！",
+				});
+				setEmail("");
+				setMessage("");
+			} else {
+				setSubmitStatus({
+					success: false,
+					message: data.error || "送信エラーが発生しました。",
+				});
+			}
+		} catch (error) {
+			setSubmitStatus({
+				success: false,
+				message: "サーバーとの通信に失敗しました。",
+			});
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
 	return (
 		<>
 			<button
@@ -54,7 +108,7 @@ export default function FeedbackModal() {
 						<div className="modal-box">
 							<h3 className="font-bold text-lg">お問い合わせ</h3>
 							<p className="py-4">
-								ご質問やご要望がございましたら気軽にこちらからお送りください！（機能実装中。まだ送信できません）
+								ご質問やご要望がございましたら気軽にこちらからお送りください！
 							</p>
 							<form method="dialog">
 								<button
@@ -64,7 +118,16 @@ export default function FeedbackModal() {
 									✕
 								</button>
 							</form>
-							<form>
+
+							{submitStatus.message && (
+								<div
+									className={`alert ${submitStatus.success ? "alert-success" : "alert-error"} mb-4`}
+								>
+									{submitStatus.message}
+								</div>
+							)}
+
+							<form onSubmit={handleSubmit}>
 								<div className="flex flex-col gap-4">
 									<div>
 										<label htmlFor="email" className="label block text-sm">
@@ -75,8 +138,10 @@ export default function FeedbackModal() {
 											<input
 												id="email"
 												type="email"
-												placeholder="yuto.ryr0623@gmail.com"
+												placeholder="メールアドレス"
 												required
+												value={email}
+												onChange={(e) => setEmail(e.target.value)}
 											/>
 										</label>
 										<div className="validator-hint hidden">
@@ -92,6 +157,8 @@ export default function FeedbackModal() {
 											className="textarea w-full validator"
 											placeholder="○○の機能が欲しい / △△のバグを見つけた"
 											required
+											value={message}
+											onChange={(e) => setMessage(e.target.value)}
 										/>
 										<div className="validator-hint hidden">
 											ご質問やご要望を入力してください
@@ -99,8 +166,12 @@ export default function FeedbackModal() {
 									</div>
 								</div>
 								<div className="modal-action justify-center">
-									<button type="submit" className="btn">
-										送信
+									<button
+										type="submit"
+										className="btn btn-primary"
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? "送信中..." : "送信"}
 									</button>
 								</div>
 							</form>
