@@ -33,7 +33,7 @@ export default function FeedbackModal() {
 			const handleClose = () => {
 				setIsOpen(false);
 				// submitStatusをクリア
-				setSubmitStatus({});
+				setTimeout(() => setSubmitStatus({}), 300);
 				// オプション: フォームもリセット
 				setEmail("");
 				setMessage("");
