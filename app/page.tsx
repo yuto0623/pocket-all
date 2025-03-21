@@ -76,7 +76,7 @@ const Tools: Tool[] = [
 export default function Home() {
 	return (
 		<>
-			<Header title="PocketALL(仮)" />
+			<Header title="PocketALL" />
 			<div>
 				<div className="flex flex-col">
 					<div className="max-w-5xl mx-auto text-center py-12 px-6">
