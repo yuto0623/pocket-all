@@ -33,7 +33,7 @@ export default function Card({
 					</h2>
 					<div className="leading-6">{children}</div>
 					<div className="justify-end card-actions">
-						<Link href={href} className="btn btn-primary">
+						<Link href={href} className="btn btn-outline">
 							このツールを使う
 						</Link>
 					</div>
