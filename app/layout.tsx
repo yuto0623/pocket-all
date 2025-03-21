@@ -6,6 +6,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import Footer from "./components/Footer/Footer";
 import SpeedDial from "./components/SpeedDial/SpeedDial";
 import { ToastProvider } from "./components/Toast/ToastContext";
+import SomePage from "./components/test";
 
 const mPlusRounded1c = M_PLUS_Rounded_1c({
 	weight: ["400", "700"],
@@ -56,6 +57,7 @@ export default function RootLayout({
 					<ToastProvider>
 						{children}
 						<SpeedDial />
+						<SomePage />
 						<Footer />
 					</ToastProvider>
 				</ThemeProvider>

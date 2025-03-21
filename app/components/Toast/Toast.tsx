@@ -25,24 +25,35 @@ export default function Toast({
 	duration = 5000,
 	onClose,
 }: ToastProps) {
-	const [isVisible, setIsVisible] = useState(true);
+	// 表示状態を管理するstate
+	const [isVisible, setIsVisible] = useState(false);
 
+	// マウント時にアニメーションのために非同期で表示状態をtrueに変更
 	useEffect(() => {
+		// マウント後にアニメーションが適用されるよう少し遅延させる
+		const showTimer = setTimeout(() => {
+			setIsVisible(true);
+		}, 10);
+
+		// 自動で閉じるタイマー
 		const timer = setTimeout(() => {
 			setIsVisible(false);
 			setTimeout(() => {
 				onClose?.(id);
-			}, 300); // アニメーション完了後に削除
+			}, 500); // アニメーション完了後に削除（時間を長くして滑らかに）
 		}, duration);
 
-		return () => clearTimeout(timer);
+		return () => {
+			clearTimeout(timer);
+			clearTimeout(showTimer);
+		};
 	}, [duration, id, onClose]);
 
 	const handleClose = () => {
 		setIsVisible(false);
 		setTimeout(() => {
 			onClose?.(id);
-		}, 300);
+		}, 500);
 	};
 
 	const getIcon = () => {
@@ -74,9 +85,17 @@ export default function Toast({
 	return (
 		<div
 			className={`
-        alert ${getColorClass()} shadow-lg mb-2 max-w-md transition-all duration-300
-        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
+        alert ${getColorClass()} shadow-lg mb-2 max-w-md 
+        transition-all duration-500 ease-in-out
+        ${
+					isVisible
+						? "opacity-100 translate-y-0 scale-100"
+						: "opacity-0 translate-y-8 scale-95"
+				}
       `}
+			style={{
+				transformOrigin: "bottom right",
+			}}
 		>
 			<div className="flex justify-between w-full items-center">
 				<div className="flex items-center gap-2">
