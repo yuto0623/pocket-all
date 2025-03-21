@@ -31,6 +31,15 @@ export const metadata: Metadata = {
 	verification: {
 		google: "aGp-DvVylOKM2oA_o6jFswCH7LwYnPcYNi38QViwXdw",
 	},
+	openGraph: {
+		type: "website",
+		images: {
+			url: "/img/ogp-image.png",
+			type: "image/png",
+			width: 1206,
+			height: 657,
+		},
+	},
 };
 
 export default function RootLayout({
