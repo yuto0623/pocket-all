@@ -85,7 +85,7 @@ export default function Toast({
 	return (
 		<div
 			className={`
-        alert ${getColorClass()} shadow-lg mb-2 max-w-md 
+        alert alert-vertical ${getColorClass()} shadow-lg mb-2 max-w-md 
         transition-all duration-500 ease-in-out
         ${
 					isVisible
@@ -97,13 +97,13 @@ export default function Toast({
 				transformOrigin: "bottom right",
 			}}
 		>
-			<div className="flex justify-between w-full items-center">
+			<div className="flex gap-2 w-full items-center">
 				<div className="flex items-center gap-2">
 					{getIcon()}
 					<span>{message}</span>
 				</div>
 				<button
-					className="btn btn-ghost btn-sm btn-circle"
+					className="btn btn-ghost btn-circle btn-sm"
 					onClick={handleClose}
 					aria-label="閉じる"
 					type="button"
