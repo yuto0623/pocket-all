@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 
 // 単位定義と変換ロジック
-import { categories } from "./unit-definitions";
+import { categories } from "./utils/unit-definitions";
 
 export default function UnitConverterTool() {
 	const [selectedCategory, setSelectedCategory] = useState("length");
