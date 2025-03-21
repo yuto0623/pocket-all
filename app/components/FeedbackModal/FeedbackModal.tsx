@@ -1,4 +1,5 @@
 "use client";
+import { useToast } from "@/app/components/Toast/ToastContext";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
@@ -9,13 +10,13 @@ export default function FeedbackModal() {
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [submitStatus, setSubmitStatus] = useState<{
-		success?: boolean;
-		message?: string;
-	}>({});
 
 	const modalRef = useRef<HTMLDialogElement | null>(null);
 	const [isMounted, setIsMounted] = useState(false);
+
+	const formRef = useRef<HTMLFormElement>(null);
+
+	const { showToast } = useToast();
 
 	// クライアントサイドでのマウント検出
 	useEffect(() => {
@@ -32,9 +33,7 @@ export default function FeedbackModal() {
 			// モーダルが閉じられたときの処理
 			const handleClose = () => {
 				setIsOpen(false);
-				// submitStatusをクリア
-				setTimeout(() => setSubmitStatus({}), 300);
-				// オプション: フォームもリセット
+				//フォームもリセット
 				setEmail("");
 				setMessage("");
 			};
@@ -57,15 +56,7 @@ export default function FeedbackModal() {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
-		if (!email || !message) {
-			return setSubmitStatus({
-				success: false,
-				message: "すべてのフィールドを入力してください。",
-			});
-		}
-
 		setIsSubmitting(true);
-		setSubmitStatus({});
 
 		try {
 			const response = await fetch("/api/send-feedback", {
@@ -77,23 +68,18 @@ export default function FeedbackModal() {
 			const data = await response.json();
 
 			if (response.ok) {
-				setSubmitStatus({
-					success: true,
-					message: "ご意見ありがとうございました！",
-				});
+				showToast("ご意見ありがとうございました！", "success");
+				// 成功時はフォームをリセット（ネイティブメソッド）
+				formRef.current?.reset();
 				setEmail("");
 				setMessage("");
+				// 送信成功時にモーダルを閉じる
+				modalRef.current?.close();
 			} else {
-				setSubmitStatus({
-					success: false,
-					message: data.error || "送信エラーが発生しました。",
-				});
+				showToast(data.error || "送信エラーが発生しました。", "error");
 			}
 		} catch (error) {
-			setSubmitStatus({
-				success: false,
-				message: "サーバーとの通信に失敗しました。",
-			});
+			showToast("サーバーとの通信に失敗しました。", "error");
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -126,63 +112,54 @@ export default function FeedbackModal() {
 								</button>
 							</form>
 
-							{submitStatus.message && (
-								<div
-									className={`alert ${submitStatus.success ? "alert-success" : "alert-error"} mb-4`}
-								>
-									{submitStatus.message}
-								</div>
-							)}
-							{!submitStatus.success && (
-								<form onSubmit={handleSubmit}>
-									<div className="flex flex-col gap-4">
-										<div>
-											<label htmlFor="email" className="label block text-sm">
-												返信用メールアドレス
-											</label>
-											<label className="input validator w-full">
-												<IoMailOutline />
-												<input
-													id="email"
-													type="email"
-													placeholder="メールアドレス"
-													required
-													value={email}
-													onChange={(e) => setEmail(e.target.value)}
-												/>
-											</label>
-											<div className="validator-hint hidden">
-												メールアドレスを入力してください
-											</div>
-										</div>
-										<div>
-											<label htmlFor="message" className="label block text-sm">
-												ご質問やご要望
-											</label>
-											<textarea
-												id="message"
-												className="textarea w-full validator"
-												placeholder="○○の機能が欲しい / △△のバグを見つけた"
+							<form ref={formRef} onSubmit={handleSubmit}>
+								<div className="flex flex-col gap-4">
+									<div>
+										<label htmlFor="email" className="label block text-sm">
+											返信用メールアドレス
+										</label>
+										<label className="input validator w-full">
+											<IoMailOutline />
+											<input
+												id="email"
+												type="email"
+												placeholder="メールアドレス"
 												required
-												value={message}
-												onChange={(e) => setMessage(e.target.value)}
+												value={email}
+												onChange={(e) => setEmail(e.target.value)}
 											/>
-											<div className="validator-hint hidden">
-												ご質問やご要望を入力してください
-											</div>
+										</label>
+										<div className="validator-hint hidden">
+											メールアドレスを入力してください
 										</div>
 									</div>
-									<div className="modal-action justify-center">
-										<button
-											type="submit"
-											className="btn btn-primary"
-											disabled={isSubmitting}
-										>
-											{isSubmitting ? "送信中..." : "送信"}
-										</button>
+									<div>
+										<label htmlFor="message" className="label block text-sm">
+											ご質問やご要望
+										</label>
+										<textarea
+											id="message"
+											className="textarea w-full validator"
+											placeholder="○○の機能が欲しい / △△のバグを見つけた"
+											required
+											value={message}
+											onChange={(e) => setMessage(e.target.value)}
+										/>
+										<div className="validator-hint hidden">
+											ご質問やご要望を入力してください
+										</div>
 									</div>
-								</form>
-							)}
+								</div>
+								<div className="modal-action justify-center">
+									<button
+										type="submit"
+										className="btn btn-primary"
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? "送信中..." : "送信"}
+									</button>
+								</div>
+							</form>
 						</div>
 						<form method="dialog" className="modal-backdrop">
 							<button type="submit">閉じる</button>
