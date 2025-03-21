@@ -11,7 +11,7 @@ export default function SomePage() {
 	return (
 		<div>
 			<button type="button" onClick={handleSuccess} className="btn btn-primary">
-				成功通知を表示
+				成功通知を表示 (テスト)
 			</button>
 		</div>
 	);
