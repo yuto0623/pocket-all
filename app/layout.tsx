@@ -5,6 +5,7 @@ import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Footer from "./components/Footer/Footer";
 import SpeedDial from "./components/SpeedDial/SpeedDial";
+import { ToastProvider } from "./components/Toast/ToastContext";
 
 const mPlusRounded1c = M_PLUS_Rounded_1c({
 	weight: ["400", "700"],
@@ -52,9 +53,11 @@ export default function RootLayout({
 			<GoogleTagManager gtmId="GTM-WGF6R8WB" />
 			<body className={`${mPlusRounded1c.variable} antialiased`}>
 				<ThemeProvider>
-					{children}
-					<SpeedDial />
-					<Footer />
+					<ToastProvider>
+						{children}
+						<SpeedDial />
+						<Footer />
+					</ToastProvider>
 				</ThemeProvider>
 			</body>
 		</html>
