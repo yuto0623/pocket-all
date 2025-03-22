@@ -33,6 +33,9 @@ export default function ImageCompressorTool() {
 		"jpeg",
 	);
 
+	// 小さい画像を拡大表示するか
+	const [isEnlargeImage, setIsEnlargeImage] = useState<boolean>(false);
+
 	// 参照
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -330,6 +333,11 @@ export default function ImageCompressorTool() {
 		return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`;
 	};
 
+	// 切り替えハンドラーを追加
+	const handleEnlargeToggle = useCallback(() => {
+		setIsEnlargeImage((prev) => !prev);
+	}, []);
+
 	return (
 		<div>
 			<div className="card">
@@ -366,7 +374,11 @@ export default function ImageCompressorTool() {
 												src={compressedImage || uploadedImage}
 												alt="画像プレビュー"
 												fill
-												className="object-contain"
+												className={
+													isEnlargeImage
+														? "object-contain"
+														: "object-scale-down"
+												}
 											/>
 										</div>
 									) : (
@@ -530,6 +542,18 @@ export default function ImageCompressorTool() {
 										</select>
 									</div>
 
+									<div className="form-control mt-4">
+										<label className="label cursor-pointer justify-start gap-2">
+											<span className="label-text">小さい画像を拡大表示</span>
+											<input
+												type="checkbox"
+												className="toggle toggle-primary"
+												checked={isEnlargeImage}
+												onChange={handleEnlargeToggle}
+											/>
+										</label>
+									</div>
+
 									{/* ファイルサイズ情報 */}
 									{originalSize > 0 && (
 										<div className="mt-6 p-4 bg-base-200 rounded-lg">
@@ -593,7 +617,9 @@ export default function ImageCompressorTool() {
 											src={compressedImage || uploadedImage}
 											alt="画像プレビュー"
 											fill
-											className="object-contain"
+											className={
+												isEnlargeImage ? "object-contain" : "object-scale-down"
+											}
 										/>
 									</div>
 								) : (
