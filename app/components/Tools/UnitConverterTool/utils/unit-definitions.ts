@@ -71,6 +71,18 @@ export const categories: UnitCategory[] = [
 				toBase: (v) => v * 1852,
 				fromBase: (v) => v / 1852,
 			},
+			{
+				id: "lightYear",
+				name: "光年 (ly)",
+				toBase: (v) => v * 9.461e15,
+				fromBase: (v) => v / 9.461e15,
+			},
+			{
+				id: "parsec",
+				name: "パーセク (pc)",
+				toBase: (v) => v * 3.0857e16,
+				fromBase: (v) => v / 3.0857e16,
+			},
 		],
 		commonConversions: [
 			["centimeter", "inch"],
